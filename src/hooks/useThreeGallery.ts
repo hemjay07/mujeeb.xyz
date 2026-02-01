@@ -5,13 +5,16 @@ import * as THREE from 'three';
 import { Project } from '@/data/projects';
 import { AnimationConfig } from '@/components/Debug/AnimationControls';
 
-// Case study position (flat, centered)
+// Case study position (directly on camera focal axis for no distortion)
 const CASE_STUDY = {
-  posX: 0.8,
+  posX: 0.8,  // Camera looks at x=0.8
+  posY: 0.2,  // Slightly above center
+  posZ: 0,
   rotX: 0,
   rotY: 0,
   rotZ: 0,
   bend: 0,
+  scale: 1,
 };
 
 interface UseThreeGalleryProps {
@@ -135,6 +138,10 @@ export function useThreeGallery({
   const configRef = useRef(config);
   configRef.current = config;
 
+  // Callback refs - always current without triggering re-init
+  const onIndexChangeRef = useRef(onIndexChange);
+  onIndexChangeRef.current = onIndexChange;
+
   // Animation state
   const scrollYRef = useRef(0);
   const targetScrollYRef = useRef(0);
@@ -149,6 +156,9 @@ export function useThreeGallery({
   const isAnimatingToGalleryRef = useRef(false);
   const isTransitioningRef = useRef(false);
   const isCaseStudyOpenRef = useRef(false);
+
+  // Store starting position for smooth transition
+  const transitionStartPos = useRef({ x: 0, y: 0, z: 0, scale: 1 });
 
   useEffect(() => {
     isCaseStudyOpenRef.current = isCaseStudyOpen;
@@ -169,6 +179,17 @@ export function useThreeGallery({
 
   const openCaseStudy = useCallback(() => {
     if (isTransitioningRef.current || isCaseStudyOpenRef.current || !entryCompleteRef.current) return;
+
+    // Capture starting position of the active card
+    const activeCard = cardsRef.current[currentIndexRef.current];
+    if (activeCard) {
+      transitionStartPos.current = {
+        x: activeCard.position.x,
+        y: activeCard.position.y,
+        z: activeCard.position.z,
+        scale: activeCard.scale.x,
+      };
+    }
 
     isTransitioningRef.current = true;
     isAnimatingToCaseRef.current = true;
@@ -386,14 +407,22 @@ export function useThreeGallery({
       // Case study transition - animate the active card
       if (isAnimatingToCaseRef.current) {
         const activeCard = cardsRef.current[currentIndexRef.current];
-        transitionProgressRef.current += 0.025;
+        transitionProgressRef.current += 0.035;
         const t = easeInOutCubic(Math.min(1, transitionProgressRef.current));
+        const start = transitionStartPos.current;
 
-        // Interpolate card position, rotation, and bend
-        activeCard.position.x = lerp(GALLERY.posX, CASE_STUDY.posX, t);
+        // Interpolate card position (from current pos to center)
+        activeCard.position.x = lerp(start.x, CASE_STUDY.posX, t);
+        activeCard.position.y = lerp(start.y, CASE_STUDY.posY, t);
+        activeCard.position.z = lerp(start.z, CASE_STUDY.posZ, t);
+
+        // Interpolate rotation (to flat)
         activeCard.rotation.x = lerp(GALLERY.rotX, CASE_STUDY.rotX, t);
         activeCard.rotation.y = lerp(GALLERY.rotY, CASE_STUDY.rotY, t);
         activeCard.rotation.z = lerp(GALLERY.rotZ, CASE_STUDY.rotZ, t);
+
+        // Interpolate scale and bend
+        activeCard.scale.setScalar(lerp(start.scale, CASE_STUDY.scale, t));
         updateCardGeometry(activeCard, lerp(GALLERY.bend, CASE_STUDY.bend, t));
 
         // Hide other cards
@@ -404,23 +433,42 @@ export function useThreeGallery({
         });
 
         if (transitionProgressRef.current >= 1) {
+          // Ensure final flat state
+          activeCard.position.set(CASE_STUDY.posX, CASE_STUDY.posY, CASE_STUDY.posZ);
+          activeCard.rotation.set(0, 0, 0);
+          activeCard.scale.setScalar(1);
+          updateCardGeometry(activeCard, 0); // Completely flat
+
           isAnimatingToCaseRef.current = false;
           isCaseStudyOpenRef.current = true;
           isTransitioningRef.current = false;
         }
       }
 
-      // Back to gallery transition
+      // Back to gallery transition (faster than opening)
       if (isAnimatingToGalleryRef.current) {
         const activeCard = cardsRef.current[currentIndexRef.current];
-        transitionProgressRef.current += 0.025;
+        transitionProgressRef.current += 0.05;
         const t = easeInOutCubic(Math.min(1, transitionProgressRef.current));
+
+        // Calculate target gallery position for this card
+        const targetY = activeCard.userData.origY + scrollYRef.current;
+        const d = Math.abs(targetY);
+        const targetScale = THREE.MathUtils.lerp(1, 0.82, Math.min(d / 4.5, 1));
+        const targetZ = -d * 0.12;
 
         // Interpolate back to gallery position
         activeCard.position.x = lerp(CASE_STUDY.posX, GALLERY.posX, t);
+        activeCard.position.y = lerp(CASE_STUDY.posY, targetY, t);
+        activeCard.position.z = lerp(CASE_STUDY.posZ, targetZ, t);
+
+        // Interpolate rotation
         activeCard.rotation.x = lerp(CASE_STUDY.rotX, GALLERY.rotX, t);
         activeCard.rotation.y = lerp(CASE_STUDY.rotY, GALLERY.rotY, t);
         activeCard.rotation.z = lerp(CASE_STUDY.rotZ, GALLERY.rotZ, t);
+
+        // Interpolate scale and bend
+        activeCard.scale.setScalar(lerp(CASE_STUDY.scale, targetScale, t));
         updateCardGeometry(activeCard, lerp(CASE_STUDY.bend, GALLERY.bend, t));
 
         // Show other cards
@@ -439,7 +487,7 @@ export function useThreeGallery({
 
       // Normal scroll (only in gallery mode)
       if (entryCompleteRef.current && !isCaseStudyOpenRef.current && !isTransitioningRef.current) {
-        scrollYRef.current += (targetScrollYRef.current - scrollYRef.current) * 0.08;
+        scrollYRef.current += (targetScrollYRef.current - scrollYRef.current) * 0.12;
 
         cardsRef.current.forEach((card, i) => {
           // Position based on scroll
@@ -460,7 +508,7 @@ export function useThreeGallery({
         const newIdx = Math.round(scrollYRef.current / cfg.spacing);
         if (newIdx !== currentIndexRef.current && newIdx >= 0 && newIdx < projects.length) {
           currentIndexRef.current = newIdx;
-          onIndexChange(newIdx);
+          onIndexChangeRef.current(newIdx);
 
           // Update card textures (active vs inactive)
           cardsRef.current.forEach((card, i) => {
@@ -498,7 +546,8 @@ export function useThreeGallery({
         container.removeChild(renderer.domElement);
       }
     };
-  }, [projects, containerRef, onIndexChange, openCaseStudy, replayEntry]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [projects, containerRef]);
 
   return {
     openCaseStudy,

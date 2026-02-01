@@ -118,11 +118,10 @@ export default function Gallery() {
         }`}
       />
 
-      {/* Three.js canvas container - fades during transition */}
+      {/* Three.js canvas container - stays visible, card animates */}
       <div
         ref={canvasContainerRef}
         id="canvas-container"
-        className={isTransitioning ? 'transitioning' : ''}
       />
 
       {/* Reveal curtain for transitions - dark themed */}

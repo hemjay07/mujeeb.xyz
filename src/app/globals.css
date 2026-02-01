@@ -179,7 +179,7 @@ body {
   height: 100%;
   z-index: 10;
   cursor: pointer;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.5s ease;
 }
 
 #canvas-container.transitioning {
@@ -215,7 +215,7 @@ body {
 
 /* Hero background layer - visible in case study view */
 .bg-hero {
-  position: fixed;
+  position: fixed !important;
   top: 0;
   left: 0;
   width: 100%;
@@ -241,26 +241,16 @@ body {
 
 /* Reveal curtain for transitions */
 .reveal-curtain {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 0%;
-  height: 100%;
-  z-index: 5;
-  transition: width 0.7s cubic-bezier(0.7, 0, 0.2, 1);
-}
-
-.reveal-curtain.expanding {
-  width: 100%;
+  display: none;
 }
 
 /* Gallery UI layer */
 .gallery-ui {
   z-index: 20;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.4s ease;
 }
 
-.gallery-ui.hidden {
+.gallery-ui.fade-out {
   opacity: 0;
   pointer-events: none;
 }
@@ -271,7 +261,7 @@ body {
   transition: opacity 0.5s ease;
 }
 
-.nav-indicators.hidden {
+.nav-indicators.fade-out {
   opacity: 0;
   pointer-events: none;
 }
@@ -406,4 +396,97 @@ body {
     --text-4xl: 2.5rem;
     --text-5xl: 3rem;
   }
+}
+
+/* ============================================
+   REVEAL ANIMATIONS
+   Progressive content reveal on scroll
+   ============================================ */
+
+.reveal,
+.reveal-left,
+.reveal-right,
+.reveal-scale,
+.reveal-fade {
+  opacity: 0;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal {
+  transform: translateY(30px);
+}
+
+.reveal-left {
+  transform: translateX(-30px);
+}
+
+.reveal-right {
+  transform: translateX(30px);
+}
+
+.reveal-scale {
+  transform: scale(0.95);
+}
+
+.reveal-fade {
+  /* Just opacity, no transform */
+}
+
+.reveal.revealed,
+.reveal-left.revealed,
+.reveal-right.revealed,
+.reveal-scale.revealed,
+.reveal-fade.revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* Reveal delays */
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+
+/* Scroll indicator animation */
+@keyframes scroll-hint {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+.animate-scroll-hint {
+  animation: scroll-hint 2s ease-in-out infinite;
+  background: linear-gradient(to bottom, transparent, var(--accent-primary), transparent);
+}
+
+/* Theme transition - smooth accent color changes */
+.theme-transition {
+  transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Accent color utility - uses CSS variable */
+.text-accent {
+  color: var(--accent-primary);
+}
+
+.bg-accent {
+  background-color: var(--accent-primary);
+}
+
+.border-accent {
+  border-color: var(--accent-primary);
+}
+
+.glow-accent {
+  text-shadow: 0 0 20px var(--accent-glow);
 }
