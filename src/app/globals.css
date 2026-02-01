@@ -76,9 +76,11 @@
   --accent-glow: rgba(249, 115, 22, 0.5);
 }
 
-* {
-  margin: 0;
-  padding: 0;
+/* Note: Tailwind v4's preflight already resets margin/padding.
+   We only keep box-sizing since it doesn't conflict with utilities. */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
