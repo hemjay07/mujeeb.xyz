@@ -55,67 +55,58 @@ function createBentPlane(width: number, height: number, bend: number): THREE.Pla
   return geo;
 }
 
-function createCardTexture(index: number, project: Project, isActive: boolean): HTMLCanvasElement {
+// Create a placeholder texture while the real image loads
+function createPlaceholderTexture(index: number, project: Project): HTMLCanvasElement {
   const canvas = document.createElement('canvas');
   canvas.width = 900;
   canvas.height = 700;
   const ctx = canvas.getContext('2d')!;
 
-  // Background - lighter for active, darker for inactive
-  if (isActive) {
-    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-    gradient.addColorStop(0, '#1a1a24');
-    gradient.addColorStop(1, '#12121a');
-    ctx.fillStyle = gradient;
-  } else {
-    ctx.fillStyle = '#0a0a10';
-  }
+  // Dark background
+  ctx.fillStyle = '#0a0a10';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Subtle grid pattern
-  ctx.strokeStyle = isActive ? 'rgba(255, 255, 255, 0.03)' : 'rgba(255, 255, 255, 0.015)';
-  ctx.lineWidth = 1;
-  for (let x = 0; x < canvas.width; x += 35) {
-    ctx.beginPath();
-    ctx.moveTo(x, 0);
-    ctx.lineTo(x, canvas.height);
-    ctx.stroke();
-  }
-  for (let y = 0; y < canvas.height; y += 35) {
-    ctx.beginPath();
-    ctx.moveTo(0, y);
-    ctx.lineTo(canvas.width, y);
-    ctx.stroke();
-  }
-
-  // Large number
+  // Loading indicator
   const projectNumber = String(index + 1).padStart(2, '0');
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.globalAlpha = isActive ? 0.12 : 0.06;
+  ctx.globalAlpha = 0.1;
   ctx.fillStyle = '#22d3ee';
   ctx.font = 'bold 320px monospace';
   ctx.fillText(projectNumber, canvas.width / 2, canvas.height / 2 - 20);
 
-  // Project title
-  ctx.globalAlpha = isActive ? 0.9 : 0.5;
+  ctx.globalAlpha = 0.5;
   ctx.fillStyle = '#ffffff';
   ctx.font = '600 38px system-ui';
   ctx.fillText(project.title, canvas.width / 2, canvas.height - 85);
 
-  // Category
-  ctx.globalAlpha = isActive ? 0.6 : 0.3;
-  ctx.fillStyle = '#22d3ee';
-  ctx.font = '400 16px monospace';
-  ctx.fillText(project.category.toLowerCase().replace(' / ', '_'), canvas.width / 2, canvas.height - 45);
-
-  // Border
-  ctx.globalAlpha = isActive ? 0.25 : 0.1;
-  ctx.strokeStyle = '#22d3ee';
-  ctx.lineWidth = 2;
-  ctx.strokeRect(1, 1, canvas.width - 2, canvas.height - 2);
-
   return canvas;
+}
+
+// Load project screenshot and update card texture
+function loadCardTexture(
+  project: Project,
+  material: THREE.MeshBasicMaterial,
+  textureLoader: THREE.TextureLoader
+): void {
+  // Use first screenshot (dark version for gallery card)
+  const imagePath = project.screenshots[0];
+  if (!imagePath) return;
+
+  textureLoader.load(
+    imagePath,
+    (texture) => {
+      texture.minFilter = THREE.LinearFilter;
+      texture.magFilter = THREE.LinearFilter;
+      material.map?.dispose();
+      material.map = texture;
+      material.needsUpdate = true;
+    },
+    undefined,
+    (error) => {
+      console.warn(`Failed to load texture for ${project.title}:`, error);
+    }
+  );
 }
 
 export function useThreeGallery({
@@ -244,23 +235,27 @@ export function useThreeGallery({
 
     // Create cards
     const cards: THREE.Mesh[] = [];
+    const textureLoader = new THREE.TextureLoader();
 
     for (let i = 0; i < projects.length; i++) {
       // Start with no bend (will animate in)
       const geo = createBentPlane(cfg.cardWidth, cfg.cardHeight, 0);
 
-      // Create texture
-      const canvas = createCardTexture(i, projects[i], i === 0);
-      const texture = new THREE.CanvasTexture(canvas);
-      texture.minFilter = THREE.LinearFilter;
-      texture.magFilter = THREE.LinearFilter;
+      // Create placeholder texture while real image loads
+      const placeholderCanvas = createPlaceholderTexture(i, projects[i]);
+      const placeholderTexture = new THREE.CanvasTexture(placeholderCanvas);
+      placeholderTexture.minFilter = THREE.LinearFilter;
+      placeholderTexture.magFilter = THREE.LinearFilter;
 
       const material = new THREE.MeshBasicMaterial({
-        map: texture,
+        map: placeholderTexture,
         side: THREE.DoubleSide,
         transparent: true,
         opacity: 0, // Start invisible for entry animation
       });
+
+      // Load actual project screenshot (dark version for gallery)
+      loadCardTexture(projects[i], material, textureLoader);
 
       const mesh = new THREE.Mesh(geo, material);
 
@@ -504,20 +499,11 @@ export function useThreeGallery({
           card.rotation.set(GALLERY.rotX, GALLERY.rotY, GALLERY.rotZ);
         });
 
-        // Update current index and textures
+        // Update current index (textures stay as loaded images)
         const newIdx = Math.round(scrollYRef.current / cfg.spacing);
         if (newIdx !== currentIndexRef.current && newIdx >= 0 && newIdx < projects.length) {
           currentIndexRef.current = newIdx;
           onIndexChangeRef.current(newIdx);
-
-          // Update card textures (active vs inactive)
-          cardsRef.current.forEach((card, i) => {
-            const mat = card.material as THREE.MeshBasicMaterial;
-            const canvas = createCardTexture(i, projects[i], i === newIdx);
-            mat.map?.dispose();
-            mat.map = new THREE.CanvasTexture(canvas);
-            mat.map.minFilter = THREE.LinearFilter;
-          });
         }
       }
 
