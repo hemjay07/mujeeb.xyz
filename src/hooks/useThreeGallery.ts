@@ -30,6 +30,7 @@ export interface GalleryControls {
   openCaseStudy: () => void;
   closeCaseStudy: () => void;
   goToProject: (index: number) => void;
+  goToProjectInCaseStudy: (index: number) => void;
   replayEntry: () => void;
 }
 
@@ -96,6 +97,7 @@ function loadCardTexture(
   textureLoader.load(
     imagePath,
     (texture) => {
+      texture.colorSpace = THREE.SRGBColorSpace;
       texture.minFilter = THREE.LinearFilter;
       texture.magFilter = THREE.LinearFilter;
       material.map?.dispose();
@@ -124,6 +126,7 @@ export function useThreeGallery({
   const cardsRef = useRef<THREE.Mesh[]>([]);
   const raycasterRef = useRef(new THREE.Raycaster());
   const mouseRef = useRef(new THREE.Vector2());
+  const textureLoaderRef = useRef<THREE.TextureLoader | null>(null);
 
   // Config ref - update synchronously
   const configRef = useRef(config);
@@ -203,6 +206,55 @@ export function useThreeGallery({
     targetScrollYRef.current = index * cfg.spacing;
   }, []);
 
+  // Navigate to a project while case study is open (swaps visible card)
+  const goToProjectInCaseStudy = useCallback((index: number) => {
+    if (!isCaseStudyOpenRef.current || index < 0 || index >= projects.length) return;
+
+    const cfg = configRef.current;
+    const oldIndex = currentIndexRef.current;
+    const oldCard = cardsRef.current[oldIndex];
+    const newCard = cardsRef.current[index];
+
+    if (!oldCard || !newCard) return;
+
+    // Update scroll position first (needed for old card positioning)
+    currentIndexRef.current = index;
+    targetScrollYRef.current = index * cfg.spacing;
+    scrollYRef.current = index * cfg.spacing;
+
+    // Move old card back to its gallery position (so it's correct when shown again)
+    const oldCardGalleryY = oldCard.userData.origY + scrollYRef.current;
+    const oldCardDistance = Math.abs(oldCardGalleryY);
+    const oldCardScale = THREE.MathUtils.lerp(1, 0.82, Math.min(oldCardDistance / 4.5, 1));
+    const oldCardZ = -oldCardDistance * 0.12;
+
+    oldCard.position.set(cfg.galleryPosX, oldCardGalleryY, oldCardZ);
+    oldCard.rotation.set(cfg.galleryRotX, cfg.galleryRotY, cfg.galleryRotZ);
+    oldCard.scale.setScalar(oldCardScale);
+
+    // Update old card geometry back to gallery bend
+    const oldGeoOld = oldCard.geometry;
+    oldCard.geometry = createBentPlane(cfg.cardWidth, cfg.cardHeight, cfg.galleryBend);
+    oldGeoOld.dispose();
+
+    // Hide the old card
+    oldCard.visible = false;
+
+    // Show the new card and position it in case study position
+    newCard.visible = true;
+    newCard.position.set(CASE_STUDY.posX, CASE_STUDY.posY, CASE_STUDY.posZ);
+    newCard.rotation.set(CASE_STUDY.rotX, CASE_STUDY.rotY, CASE_STUDY.rotZ);
+    newCard.scale.setScalar(CASE_STUDY.scale);
+
+    // Update new card geometry to flat (no bend)
+    const oldGeoNew = newCard.geometry;
+    newCard.geometry = createBentPlane(cfg.cardWidth, cfg.cardHeight, 0);
+    oldGeoNew.dispose();
+
+    // Notify React of the index change
+    onIndexChangeRef.current(index);
+  }, [projects]);
+
   // Initialize Three.js
   useEffect(() => {
     const container = containerRef.current;
@@ -236,6 +288,7 @@ export function useThreeGallery({
     // Create cards
     const cards: THREE.Mesh[] = [];
     const textureLoader = new THREE.TextureLoader();
+    textureLoaderRef.current = textureLoader;
 
     for (let i = 0; i < projects.length; i++) {
       // Start with no bend (will animate in)
@@ -539,6 +592,7 @@ export function useThreeGallery({
     openCaseStudy,
     closeCaseStudy,
     goToProject,
+    goToProjectInCaseStudy,
     replayEntry,
   };
 }

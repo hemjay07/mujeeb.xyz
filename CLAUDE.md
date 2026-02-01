@@ -1,5 +1,11 @@
 # Mujeeb Portfolio - Complete Design System & Guidelines
 
+## Testing Note
+
+**Browser automation cannot test animations or scroll interactions in this project.** The case study uses a fixed scroll container (`.case-content-wrapper`) that Playwright cannot scroll properly. Always ask the user to manually test animations and transitions, then report back with findings.
+
+---
+
 ## Design Philosophy
 
 **Terminal-Meets-Editorial** - A hacker/developer aesthetic with editorial clarity.

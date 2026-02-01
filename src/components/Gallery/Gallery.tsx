@@ -83,7 +83,9 @@ export default function Gallery() {
 
   const handleNavigateToProject = useCallback((projectId: string) => {
     const newIndex = projects.findIndex(p => p.id === projectId);
-    if (newIndex !== -1) {
+    if (newIndex !== -1 && galleryControlsRef.current) {
+      // Swap visible card in Three.js and update scroll position
+      galleryControlsRef.current.goToProjectInCaseStudy(newIndex);
       setCurrentIndex(newIndex);
       // Scroll to top when navigating to new project
       window.scrollTo(0, 0);
