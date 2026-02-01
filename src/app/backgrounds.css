@@ -1,0 +1,730 @@
+/* ============================================
+   PREMIUM BACKGROUND TREATMENTS FOR WEB3 PORTFOLIO
+   Layered, gradient-driven designs with depth
+   ============================================ */
+
+/* PredictKit - Professional Infrastructure */
+.bg-predictkit-gallery {
+  background:
+    repeating-conic-gradient(from 0deg at 20% 50%, rgba(139, 92, 246, 0.05) 0deg, rgba(139, 92, 246, 0) 90deg, rgba(139, 92, 246, 0.02) 180deg),
+    linear-gradient(90deg, rgba(139, 92, 246, 0.03) 1px, transparent 1px),
+    linear-gradient(rgba(139, 92, 246, 0.03) 1px, transparent 1px),
+    linear-gradient(135deg, #2d1b4a 0%, #1a0f2e 100%);
+  background-size: 600px 600px, 30px 30px, 30px 30px, 100% 100%;
+  background-position: -20px -20px, 0 0, 0 0, 0 0;
+  animation: mesh-flow-predictkit 20s ease-in-out infinite;
+}
+
+@keyframes mesh-flow-predictkit {
+  0% { background-position: 0 0, 0 0, 0 0, 0 0; }
+  50% { background-position: -40px -40px, 0 0, 0 0, 0 0; }
+  100% { background-position: 0 0, 0 0, 0 0, 0 0; }
+}
+
+.bg-predictkit-hero {
+  position: relative;
+  background:
+    /* Very subtle grid - barely visible */
+    linear-gradient(90deg, rgba(139, 92, 246, 0.025) 1px, transparent 1px),
+    linear-gradient(rgba(139, 92, 246, 0.025) 1px, transparent 1px),
+    /* Smooth purple gradient - matches gallery but darker */
+    linear-gradient(180deg,
+      #2d1b4a 0%,
+      #1f1338 30%,
+      #140d22 60%,
+      #0a0a0f 100%
+    );
+  background-size:
+    60px 60px,
+    60px 60px,
+    100% 100%;
+}
+
+.bg-predictkit-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    /* Soft central glow for product focus */
+    radial-gradient(ellipse 90% 70% at 50% 40%, rgba(139, 92, 246, 0.15) 0%, transparent 60%),
+    /* Subtle top glow */
+    radial-gradient(circle at 50% 0%, rgba(139, 92, 246, 0.2) 0%, transparent 50%),
+    /* Very subtle side accents */
+    radial-gradient(circle at 0% 50%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 100% 50%, rgba(139, 92, 246, 0.08) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.bg-predictkit-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    /* Gentle ambient glow */
+    radial-gradient(ellipse 120% 80% at 30% 20%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse 120% 80% at 70% 80%, rgba(167, 139, 250, 0.06) 0%, transparent 50%);
+  animation: predictkit-ambient 20s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes predictkit-ambient {
+  0%, 100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.bg-predictkit-content {
+  background:
+    linear-gradient(90deg, rgba(139, 92, 246, 0.02) 1px, transparent 1px),
+    linear-gradient(rgba(139, 92, 246, 0.02) 1px, transparent 1px),
+    #0a0a0f;
+  background-size: 50px 50px;
+}
+
+/* ============================================
+   2. TRUTHBOUNTY - Trust & Reputation
+   Color: #2d1f3d (purple)
+   Accent: #c084fc (light purple)
+   Vibe: Ethereal, trustworthy, credential-focused
+   ============================================ */
+
+.bg-truthbounty-gallery {
+  background:
+    /* Organic blob overlays */
+    radial-gradient(circle at 30% 20%, rgba(192, 132, 252, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 70% 70%, rgba(192, 132, 252, 0.08) 0%, transparent 50%),
+    /* Hexagon pattern (credentials) */
+    repeating-linear-gradient(
+      60deg,
+      transparent,
+      transparent 35px,
+      rgba(192, 132, 252, 0.03) 35px,
+      rgba(192, 132, 252, 0.03) 70px
+    ),
+    repeating-linear-gradient(
+      120deg,
+      transparent,
+      transparent 35px,
+      rgba(192, 132, 252, 0.03) 35px,
+      rgba(192, 132, 252, 0.03) 70px
+    ),
+    /* Base gradient */
+    linear-gradient(135deg, #2d1f3d 0%, #1a1227 100%);
+
+  animation: pulse-truthbounty 15s ease-in-out infinite;
+}
+
+@keyframes pulse-truthbounty {
+  0%, 100% {
+    background-position: 0 0, 0 0, 0 0, 0 0, 0 0;
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.bg-truthbounty-hero {
+  position: relative;
+  background: linear-gradient(180deg, #2d1f3d 0%, #1a1227 50%, #0a0a0f 100%);
+}
+
+.bg-truthbounty-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(192, 132, 252, 0.15) 0%, transparent 80%),
+    radial-gradient(circle at 30% 100%, rgba(192, 132, 252, 0.08) 0%, transparent 80%);
+  pointer-events: none;
+}
+
+.bg-truthbounty-content {
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 10px,
+      rgba(192, 132, 252, 0.01) 10px,
+      rgba(192, 132, 252, 0.01) 20px
+    ),
+    #0a0a0f;
+}
+
+/* ============================================
+   3. FORESIGHT - Gaming/Competitive
+   Color: #0f2830 (teal/dark cyan)
+   Accent: #34d399 (emerald green)
+   Vibe: Fast, energetic, competitive, data streams
+   ============================================ */
+
+.bg-foresight-gallery {
+  background:
+    /* Animated scan lines (trading data) */
+    repeating-linear-gradient(
+      0deg,
+      rgba(52, 211, 153, 0.03) 0px,
+      rgba(52, 211, 153, 0.03) 2px,
+      transparent 2px,
+      transparent 8px
+    ),
+    /* Vertical data streams */
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 39px,
+      rgba(52, 211, 153, 0.04) 39px,
+      rgba(52, 211, 153, 0.04) 40px
+    ),
+    /* Dynamic radial accent */
+    radial-gradient(circle at 40% 30%, rgba(52, 211, 153, 0.1) 0%, transparent 60%),
+    radial-gradient(circle at 70% 80%, rgba(52, 211, 153, 0.08) 0%, transparent 50%),
+    /* Base gradient */
+    linear-gradient(135deg, #0f2830 0%, #071620 100%);
+
+  animation: data-flow-foresight 4s linear infinite;
+}
+
+@keyframes data-flow-foresight {
+  0% { background-position: 0 0, 0 0, 0 0, 0 0, 0 0; }
+  100% { background-position: 0 -200px, 0 0, 0 0, 0 0, 0 0; }
+}
+
+.bg-foresight-hero {
+  position: relative;
+  background: linear-gradient(180deg, #0f2830 0%, #071620 50%, #0a0a0f 100%);
+}
+
+.bg-foresight-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% -10%, rgba(52, 211, 153, 0.2) 0%, transparent 70%),
+    radial-gradient(circle at 20% 50%, rgba(52, 211, 153, 0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.bg-foresight-content {
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 49px,
+      rgba(52, 211, 153, 0.01) 49px,
+      rgba(52, 211, 153, 0.01) 50px
+    ),
+    #0a0a0f;
+}
+
+/* ============================================
+   4. IDEALME - Productivity/Desktop
+   Color: #3d2314 (warm brown)
+   Accent: #fb923c (orange)
+   Vibe: Warm, organized, desk/productivity, organized chaos
+   ============================================ */
+
+.bg-idealme-gallery {
+  background:
+    /* Stacked layers effect (notebook pages) */
+    repeating-linear-gradient(
+      45deg,
+      transparent 0,
+      transparent 30px,
+      rgba(251, 146, 60, 0.03) 30px,
+      rgba(251, 146, 60, 0.03) 31px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0,
+      transparent 30px,
+      rgba(251, 146, 60, 0.03) 30px,
+      rgba(251, 146, 60, 0.03) 31px
+    ),
+    /* Warm glow centers */
+    radial-gradient(circle at 35% 40%, rgba(251, 146, 60, 0.1) 0%, transparent 60%),
+    radial-gradient(circle at 75% 70%, rgba(251, 146, 60, 0.08) 0%, transparent 50%),
+    /* Base gradient */
+    linear-gradient(135deg, #3d2314 0%, #2a1810 100%);
+
+  animation: warmth-pulse-idealme 12s ease-in-out infinite;
+}
+
+@keyframes warmth-pulse-idealme {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 1; }
+}
+
+.bg-idealme-hero {
+  position: relative;
+  background: linear-gradient(180deg, #3d2314 0%, #2a1810 50%, #0a0a0f 100%);
+}
+
+.bg-idealme-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% -20%, rgba(251, 146, 60, 0.15) 0%, transparent 80%),
+    radial-gradient(circle at 20% 50%, rgba(251, 146, 60, 0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.bg-idealme-content {
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 20px,
+      rgba(251, 146, 60, 0.01) 20px,
+      rgba(251, 146, 60, 0.01) 21px
+    ),
+    #0a0a0f;
+}
+
+/* ============================================
+   5. SIGNALHIVE - Trading/Real-Time
+   Color: #1a1a2e (dark indigo)
+   Accent: #f472b6 (pink)
+   Vibe: Real-time, digital, fast, signal waves
+   ============================================ */
+
+.bg-signalhive-gallery {
+  background:
+    /* Animated sine wave pattern */
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 10px,
+      rgba(244, 114, 182, 0.04) 10px,
+      rgba(244, 114, 182, 0.04) 20px,
+      transparent 20px,
+      transparent 30px
+    ),
+    /* Frequency ripples */
+    repeating-radial-gradient(
+      circle at 50% 50%,
+      transparent 0,
+      transparent 40px,
+      rgba(244, 114, 182, 0.02) 40px,
+      rgba(244, 114, 182, 0.02) 45px
+    ),
+    /* Pink glow zones */
+    radial-gradient(circle at 30% 30%, rgba(244, 114, 182, 0.1) 0%, transparent 70%),
+    radial-gradient(circle at 80% 60%, rgba(244, 114, 182, 0.08) 0%, transparent 60%),
+    /* Base gradient */
+    linear-gradient(135deg, #1a1a2e 0%, #0f0f1a 100%);
+
+  animation: signal-pulse-signalhive 6s ease-in-out infinite;
+}
+
+@keyframes signal-pulse-signalhive {
+  0% { background-position: 0 0, 0 0, 0 0, 0 0, 0 0; }
+  50% { background-position: 0 0, -50px -50px, 0 0, 0 0, 0 0; }
+  100% { background-position: 0 0, 0 0, 0 0, 0 0, 0 0; }
+}
+
+.bg-signalhive-hero {
+  position: relative;
+  background: linear-gradient(180deg, #1a1a2e 0%, #0f0f1a 50%, #0a0a0f 100%);
+}
+
+.bg-signalhive-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 10%, rgba(244, 114, 182, 0.15) 0%, transparent 70%),
+    radial-gradient(circle at 15% 60%, rgba(244, 114, 182, 0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.bg-signalhive-content {
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 15px,
+      rgba(244, 114, 182, 0.01) 15px,
+      rgba(244, 114, 182, 0.01) 16px
+    ),
+    #0a0a0f;
+}
+
+/* ============================================
+   6. VEILPASS - Privacy/Compliance
+   Color: #1f1f2e (dark purple-ish)
+   Accent: #8b5cf6 (purple)
+   Vibe: Secure, layered, cryptographic, subtle glow
+   ============================================ */
+
+.bg-veilpass-gallery {
+  background:
+    /* Encryption layers */
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 25px,
+      rgba(139, 92, 246, 0.03) 25px,
+      rgba(139, 92, 246, 0.03) 50px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 25px,
+      rgba(139, 92, 246, 0.03) 25px,
+      rgba(139, 92, 246, 0.03) 50px
+    ),
+    /* Security glow */
+    radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.08) 0%, transparent 70%),
+    radial-gradient(circle at 25% 25%, rgba(139, 92, 246, 0.05) 0%, transparent 60%),
+    radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 60%),
+    /* Base gradient */
+    linear-gradient(135deg, #1f1f2e 0%, #141420 100%);
+}
+
+.bg-veilpass-hero {
+  position: relative;
+  background: linear-gradient(180deg, #1f1f2e 0%, #141420 50%, #0a0a0f 100%);
+}
+
+.bg-veilpass-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(139, 92, 246, 0.12) 0%, transparent 75%),
+    conic-gradient(from 0deg at 50% 50%, rgba(139, 92, 246, 0.05) 0deg, transparent 90deg, transparent 180deg, rgba(139, 92, 246, 0.03) 270deg, rgba(139, 92, 246, 0.05) 360deg);
+  pointer-events: none;
+}
+
+.bg-veilpass-content {
+  background:
+    repeating-linear-gradient(
+      45deg,
+      transparent 0,
+      transparent 10px,
+      rgba(139, 92, 246, 0.005) 10px,
+      rgba(139, 92, 246, 0.005) 11px
+    ),
+    #0a0a0f;
+}
+
+/* ============================================
+   7. PAYSHIELD - Privacy/Payments
+   Color: #0a1628 (very dark blue)
+   Accent: #22d3ee (cyan)
+   Vibe: Transparent, flowing, streams, confidential
+   ============================================ */
+
+.bg-payshield-gallery {
+  background:
+    /* Flow streams (payment flow) */
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 40px,
+      rgba(34, 211, 238, 0.04) 40px,
+      rgba(34, 211, 238, 0.04) 50px
+    ),
+    /* Vertical depth layers */
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 60px,
+      rgba(34, 211, 238, 0.02) 60px,
+      rgba(34, 211, 238, 0.02) 61px
+    ),
+    /* Flowing liquid effect */
+    radial-gradient(ellipse 600px 400px at 50% 0%, rgba(34, 211, 238, 0.1) 0%, transparent 70%),
+    radial-gradient(ellipse 400px 300px at 100% 100%, rgba(34, 211, 238, 0.06) 0%, transparent 70%),
+    /* Base gradient */
+    linear-gradient(135deg, #0a1628 0%, #050d18 100%);
+
+  animation: flow-payshield 8s ease-in-out infinite;
+}
+
+@keyframes flow-payshield {
+  0% { background-position: 0 0, 0 0, 0 0, 0 0, 0 0; }
+  50% { background-position: 50px 0, 0 60px, 0 0, 0 0, 0 0; }
+  100% { background-position: 0 0, 0 0, 0 0, 0 0, 0 0; }
+}
+
+.bg-payshield-hero {
+  position: relative;
+  background: linear-gradient(180deg, #0a1628 0%, #050d18 50%, #0a0a0f 100%);
+}
+
+.bg-payshield-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% -20%, rgba(34, 211, 238, 0.15) 0%, transparent 80%),
+    radial-gradient(ellipse 300px 200px at 30% 60%, rgba(34, 211, 238, 0.08) 0%, transparent 80%);
+  pointer-events: none;
+}
+
+.bg-payshield-content {
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 30px,
+      rgba(34, 211, 238, 0.008) 30px,
+      rgba(34, 211, 238, 0.008) 31px
+    ),
+    #0a0a0f;
+}
+
+/* ============================================
+   8. MANTLECRED - RWA/DeFi/Property
+   Color: #1a1a1a (almost black)
+   Accent: #ef4444 (red)
+   Vibe: Solid, valuable, property, brick patterns
+   ============================================ */
+
+.bg-mantlecred-gallery {
+  background:
+    /* Brick/block pattern (real estate) */
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 40px,
+      rgba(239, 68, 68, 0.04) 40px,
+      rgba(239, 68, 68, 0.04) 41px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 40px,
+      rgba(239, 68, 68, 0.04) 40px,
+      rgba(239, 68, 68, 0.04) 41px
+    ),
+    /* Offset brick rows */
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 40px,
+      rgba(239, 68, 68, 0.02) 40px,
+      rgba(239, 68, 68, 0.02) 41px
+    ),
+    /* Solid presence glows */
+    radial-gradient(circle at 50% 50%, rgba(239, 68, 68, 0.08) 0%, transparent 80%),
+    radial-gradient(circle at 20% 80%, rgba(239, 68, 68, 0.04) 0%, transparent 70%),
+    /* Base gradient */
+    linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+
+  background-size:
+    40px 100%,
+    100% 40px,
+    80px 80px,
+    100% 100%,
+    100% 100%,
+    100% 100%;
+
+  background-position:
+    0 0,
+    0 0,
+    20px 20px,
+    0 0,
+    0 0,
+    0 0;
+}
+
+.bg-mantlecred-hero {
+  position: relative;
+  background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 50%, #0a0a0f 100%);
+}
+
+.bg-mantlecred-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% -10%, rgba(239, 68, 68, 0.12) 0%, transparent 80%),
+    radial-gradient(circle at 15% 50%, rgba(239, 68, 68, 0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.bg-mantlecred-content {
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 39px,
+      rgba(239, 68, 68, 0.008) 39px,
+      rgba(239, 68, 68, 0.008) 40px
+    ),
+    #0a0a0f;
+}
+
+/* ============================================
+   TRANSITION ANIMATIONS
+   Smooth background shifts between projects
+   ============================================ */
+
+.bg-transition-enter {
+  animation: bg-fade-in 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.bg-transition-exit {
+  animation: bg-fade-out 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes bg-fade-in {
+  from {
+    opacity: 0;
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0px);
+  }
+}
+
+@keyframes bg-fade-out {
+  from {
+    opacity: 1;
+    filter: blur(0px);
+  }
+  to {
+    opacity: 0;
+    filter: blur(8px);
+  }
+}
+
+/* ============================================
+   VIGNETTE EFFECT FOR HERO SECTIONS
+   Darkens edges for focus on 3D card
+   ============================================ */
+
+.hero-vignette::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ============================================
+   CONTENT SECTION DIVIDERS
+   Subtle transitions between sections
+   ============================================ */
+
+.section-divider {
+  position: relative;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--accent-primary, #22d3ee),
+    transparent
+  );
+  opacity: 0.2;
+  margin: 4rem 0;
+}
+
+/* ============================================
+   SHIMMER EFFECT
+   Optional shimmer on cards/surfaces
+   ============================================ */
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.shimmer {
+  animation: shimmer 3s infinite;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  background-size: 1000px 100%;
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   Simplify animations on mobile
+   ============================================ */
+
+@media (max-width: 768px) {
+  .bg-predictkit-gallery,
+  .bg-truthbounty-gallery,
+  .bg-foresight-gallery,
+  .bg-idealme-gallery,
+  .bg-signalhive-gallery,
+  .bg-payshield-gallery,
+  .bg-mantlecred-gallery {
+    animation-duration: 30s !important;
+  }
+
+  /* Reduce pattern complexity on mobile */
+  .bg-predictkit-content,
+  .bg-truthbounty-content,
+  .bg-foresight-content,
+  .bg-idealme-content,
+  .bg-signalhive-content,
+  .bg-veilpass-content,
+  .bg-payshield-content,
+  .bg-mantlecred-content {
+    background-size: 100px 100px !important;
+  }
+}
+
+/* ============================================
+   COLOR REFERENCE FOR INTEGRATION
+   CSS Variables to use in component classes
+
+   Usage in component:
+   style={{
+     backgroundColor: 'var(--project-color)',
+     background: 'var(--project-bg-gradient)'
+   }}
+   ============================================ */
+
+:root {
+  /* PredictKit */
+  --color-predictkit: #2d1b4a;
+  --accent-predictkit: #8B5CF6;
+
+  /* TruthBounty */
+  --color-truthbounty: #2d1f3d;
+  --accent-truthbounty: #c084fc;
+
+  /* Foresight */
+  --color-foresight: #0f2830;
+  --accent-foresight: #34d399;
+
+  /* IdealMe */
+  --color-idealme: #3d2314;
+  --accent-idealme: #fb923c;
+
+  /* SignalHive */
+  --color-signalhive: #1a1a2e;
+  --accent-signalhive: #f472b6;
+
+  /* VeilPass */
+  --color-veilpass: #1f1f2e;
+  --accent-veilpass: #8b5cf6;
+
+  /* PayShield */
+  --color-payshield: #0a1628;
+  --accent-payshield: #22d3ee;
+
+  /* MantleCred */
+  --color-mantlecred: #1a1a1a;
+  --accent-mantlecred: #ef4444;
+}

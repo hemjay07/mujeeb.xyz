@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 @import "tailwindcss";
+@import "./backgrounds.css";
 
 @theme inline {
   /* Typography - Terminal/Hacker Aesthetic */
@@ -21,6 +22,58 @@
 :root {
   --background: #0a0a0f;
   --foreground: #e4e4e7;
+  --accent-primary: #22d3ee;
+  --accent-secondary: #06b6d4;
+  --accent-glow: rgba(34, 211, 238, 0.5);
+}
+
+/* Per-project theme classes */
+.theme-predictkit {
+  --accent-primary: #8B5CF6;
+  --accent-secondary: #7C3AED;
+  --accent-glow: rgba(139, 92, 246, 0.5);
+}
+
+.theme-truthbounty {
+  --accent-primary: #3b82f6;
+  --accent-secondary: #f59e0b;
+  --accent-glow: rgba(59, 130, 246, 0.5);
+}
+
+.theme-foresight {
+  --accent-primary: #f59e0b;
+  --accent-secondary: #22c55e;
+  --accent-glow: rgba(245, 158, 11, 0.5);
+}
+
+.theme-idealme {
+  --accent-primary: #f97316;
+  --accent-secondary: #fb923c;
+  --accent-glow: rgba(249, 115, 22, 0.5);
+}
+
+.theme-signalhive {
+  --accent-primary: #ec4899;
+  --accent-secondary: #22d3ee;
+  --accent-glow: rgba(236, 72, 153, 0.5);
+}
+
+.theme-veilpass {
+  --accent-primary: #6366f1;
+  --accent-secondary: #ec4899;
+  --accent-glow: rgba(99, 102, 241, 0.5);
+}
+
+.theme-payshield {
+  --accent-primary: #10b981;
+  --accent-secondary: #6366f1;
+  --accent-glow: rgba(16, 185, 129, 0.5);
+}
+
+.theme-mantlecred {
+  --accent-primary: #f97316;
+  --accent-secondary: #fbbf24;
+  --accent-glow: rgba(249, 115, 22, 0.5);
 }
 
 * {
