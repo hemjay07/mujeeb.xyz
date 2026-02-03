@@ -56,11 +56,7 @@ export default function RootLayout({
         />
         <meta name="author" content="Mujeeb" />
 
-        {/* Favicon - v2 cache bust */}
-        <link rel="icon" href="/favicon.ico?v=2" sizes="any" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=2" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" />
+        {/* Favicon handled by Next.js via app/favicon.ico and app/apple-icon.png */}
         <link rel="manifest" href="/site.webmanifest" />
         <meta name="theme-color" content="#0a0a0f" />
 
