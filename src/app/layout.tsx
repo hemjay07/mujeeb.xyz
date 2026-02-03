@@ -3,7 +3,7 @@
 import './globals.css';
 import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Preloader from '@/components/Preloader/Preloader';
 
 // Dynamic import to avoid SSR issues with Three.js
@@ -33,13 +33,14 @@ export default function RootLayout({
     }
   }, []);
 
-  const handlePreloaderComplete = () => {
+  // Memoized to prevent unnecessary re-renders in Preloader
+  const handlePreloaderComplete = useCallback(() => {
     sessionStorage.setItem('portfolio-visited', 'true');
     setShowPreloader(false);
-    // Mount gallery AFTER preloader fades out - this ensures fresh Three.js initialization
-    // and visitors see the full entry animation
-    setTimeout(() => setGalleryMounted(true), 100);
-  };
+    // Mount gallery AFTER preloader is fully gone
+    // This ensures Three.js initializes fresh and animation plays from start
+    setTimeout(() => setGalleryMounted(true), 50);
+  }, []);
 
   return (
     <html lang="en">
@@ -55,11 +56,11 @@ export default function RootLayout({
         />
         <meta name="author" content="Mujeeb" />
 
-        {/* Favicon */}
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        {/* Favicon - v2 cache bust */}
+        <link rel="icon" href="/favicon.ico?v=2" sizes="any" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=2" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" />
         <link rel="manifest" href="/site.webmanifest" />
         <meta name="theme-color" content="#0a0a0f" />
 
