@@ -42,6 +42,9 @@ export default function RootLayout({
         <link rel="manifest" href="/site.webmanifest" />
         <meta name="theme-color" content="#0a0a0f" />
 
+        {/* Canonical URL */}
+        <link rel="canonical" href={`https://mujeeb.xyz${pathname === '/' ? '' : pathname}`} />
+
         {/* Open Graph */}
         <meta property="og:title" content="Mujeeb | Vibe Engineer" />
         <meta
@@ -51,6 +54,9 @@ export default function RootLayout({
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://mujeeb.xyz" />
         <meta property="og:image" content="https://mujeeb.xyz/og-image.png" />
+        <meta property="og:image:width" content="1536" />
+        <meta property="og:image:height" content="1024" />
+        <meta property="og:image:type" content="image/png" />
         <meta property="og:locale" content="en_US" />
 
         {/* Twitter */}
@@ -64,6 +70,26 @@ export default function RootLayout({
         <meta name="twitter:site" content="@__mujeeb__" />
 
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes" />
+
+        {/* Structured Data (JSON-LD) */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              "name": "Mujeeb",
+              "url": "https://mujeeb.xyz",
+              "image": "https://mujeeb.xyz/mujeeb.png",
+              "jobTitle": "Vibe Engineer",
+              "description": "I build projects in record time. Shipping fast, shipping quality.",
+              "sameAs": [
+                "https://x.com/__mujeeb__",
+                "https://github.com/hemjay07"
+              ]
+            })
+          }}
+        />
       </head>
       <body className="antialiased bg-[#0a0a0f]">
         {/* Preloader */}

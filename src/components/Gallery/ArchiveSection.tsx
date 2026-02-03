@@ -114,13 +114,13 @@ export default function ArchiveSection() {
                       {project.techStack.slice(0, 6).map((tech) => (
                         <span
                           key={tech}
-                          className="px-2 py-0.5 text-[10px] rounded border border-zinc-700/50 text-zinc-500 bg-zinc-800/50"
+                          className="px-2 py-0.5 text-xs rounded border border-zinc-700/50 text-zinc-500 bg-zinc-800/50"
                         >
                           {tech}
                         </span>
                       ))}
                       {project.techStack.length > 6 && (
-                        <span className="px-2 py-0.5 text-[10px] text-zinc-600">
+                        <span className="px-2 py-0.5 text-xs text-zinc-600">
                           +{project.techStack.length - 6} more
                         </span>
                       )}

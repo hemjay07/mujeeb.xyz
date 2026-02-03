@@ -165,7 +165,7 @@ export const sectionHeaderPattern = {
  * Label: Value display (used in case studies)
  */
 export const metaItemPattern = {
-  label: 'font-mono text-[10px] text-zinc-600 uppercase tracking-wider mb-2',
+  label: 'font-mono text-xs text-zinc-600 uppercase tracking-wider mb-2',
   value: 'text-sm text-white',
   valueMono: 'font-mono',
   valueHighlight: 'text-cyan-400',

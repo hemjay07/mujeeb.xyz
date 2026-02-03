@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Project } from '@/data/projects';
 
 interface GalleryCarouselProps {
@@ -104,13 +105,13 @@ export default function GalleryCarousel({
         <div>
           <div className="flex items-center gap-2">
             <div className="w-1.5 h-1.5 rounded-full bg-accent" />
-            <span className="font-mono text-[10px] text-zinc-500">mujeeb.xyz</span>
+            <span className="font-mono text-xs text-zinc-500">mujeeb.xyz</span>
           </div>
-          <div className="font-mono text-[9px] text-zinc-600 ml-3.5">
+          <div className="font-mono text-[11px] text-zinc-600 ml-3.5">
             13 projects · 3 months
           </div>
         </div>
-        <Link href="/about" className="font-mono text-[10px] text-zinc-500 hover:text-accent transition-colors">
+        <Link href="/about" className="font-mono text-xs text-zinc-500 hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent/50 rounded px-2 py-1">
           /about
         </Link>
       </header>
@@ -131,10 +132,13 @@ export default function GalleryCarousel({
             'translate-x-0 opacity-100'
           }`}
         >
-          <img
+          <Image
             src={currentProject.mobileScreenshots?.[0] || currentProject.screenshots[0] || currentProject.heroImage}
             alt={currentProject.title}
-            className="w-full h-full object-cover object-top"
+            fill
+            className="object-cover object-top"
+            priority={currentIndex === 0}
+            sizes="100vw"
           />
 
           {/* Gradient overlay for bottom content */}
@@ -171,7 +175,7 @@ export default function GalleryCarousel({
       {/* Bottom Sheet - Project Info ~90px */}
       <div className="bg-[#0a0a0f] border-t border-zinc-800/50 px-4 py-3">
         {/* Category */}
-        <div className="font-mono text-[10px] text-accent/70 uppercase tracking-wider mb-1">
+        <div className="font-mono text-xs text-accent/70 uppercase tracking-wider mb-1">
           {currentProject.category}
         </div>
 
@@ -191,20 +195,20 @@ export default function GalleryCarousel({
             e.stopPropagation();
             onOpenCaseStudy();
           }}
-          className="w-full py-3 bg-accent/10 border border-accent/30 rounded-lg font-mono text-xs text-accent hover:bg-accent/20 transition-all flex items-center justify-center gap-2 min-h-[44px]"
+          className="w-full py-3 bg-accent/10 border border-accent/30 rounded-lg font-mono text-xs text-accent hover:bg-accent/20 transition-all flex items-center justify-center gap-2 min-h-[44px] focus:outline-none focus:ring-2 focus:ring-accent/50"
         >
           <span>view_project</span>
           <span>→</span>
         </button>
       </div>
 
-      {/* Dot Navigation - Compact with proper touch targets */}
+      {/* Dot Navigation - 44px touch targets for accessibility */}
       <div className="flex justify-center items-center gap-0 py-2 pb-4">
         {projects.map((_, i) => (
           <button
             key={i}
             onClick={() => goToProject(i)}
-            className="flex items-center justify-center p-3"
+            className="flex items-center justify-center min-w-[44px] min-h-[44px] focus:outline-none focus:ring-2 focus:ring-accent/50 rounded-full"
             aria-label={`Go to project ${i + 1}`}
           >
             <span className={`block h-1.5 rounded-full transition-all duration-300 ${

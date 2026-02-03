@@ -157,7 +157,7 @@ export default function AboutPage() {
               >
                 <button
                   onClick={() => setExpandedPillar(expandedPillar === i ? null : i)}
-                  className="w-full px-4 py-4 flex items-center justify-between text-left"
+                  className="w-full px-4 py-4 flex items-center justify-between text-left focus:outline-none focus:ring-2 focus:ring-cyan-400/50 focus:ring-inset"
                 >
                   <div className="flex items-center gap-4">
                     <span className="font-mono text-xs text-cyan-400 w-8">
@@ -221,7 +221,7 @@ export default function AboutPage() {
                     className="object-cover"
                   />
                 </div>
-                <div className="font-mono text-[10px] text-zinc-600 text-center mt-2">
+                <div className="font-mono text-xs text-zinc-600 text-center mt-2">
                   profile.png
                 </div>
               </div>
@@ -250,7 +250,7 @@ export default function AboutPage() {
           <div className="flex flex-wrap gap-4">
             <a
               href="mailto:mujeebopabode07@gmail.com"
-              className="flex items-center gap-2 px-4 py-2.5 border border-cyan-400/30 rounded-lg font-mono text-sm text-cyan-400 hover:bg-cyan-400/10 transition-colors"
+              className="flex items-center gap-2 px-4 py-2.5 border border-cyan-400/30 rounded-lg font-mono text-sm text-cyan-400 hover:bg-cyan-400/10 transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-400/50"
             >
               <span>email</span>
               <span className="text-cyan-400/50">→</span>
@@ -259,7 +259,7 @@ export default function AboutPage() {
               href="https://x.com/__mujeeb__"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-4 py-2.5 border border-zinc-700 rounded-lg font-mono text-sm text-zinc-400 hover:border-zinc-600 hover:text-zinc-300 transition-colors"
+              className="flex items-center gap-2 px-4 py-2.5 border border-zinc-700 rounded-lg font-mono text-sm text-zinc-400 hover:border-zinc-600 hover:text-zinc-300 transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-400/50"
             >
               <span>twitter</span>
               <span className="text-zinc-600">↗</span>
@@ -268,7 +268,7 @@ export default function AboutPage() {
               href="https://github.com/hemjay07"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-4 py-2.5 border border-zinc-700 rounded-lg font-mono text-sm text-zinc-400 hover:border-zinc-600 hover:text-zinc-300 transition-colors"
+              className="flex items-center gap-2 px-4 py-2.5 border border-zinc-700 rounded-lg font-mono text-sm text-zinc-400 hover:border-zinc-600 hover:text-zinc-300 transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-400/50"
             >
               <span>github</span>
               <span className="text-zinc-600">↗</span>

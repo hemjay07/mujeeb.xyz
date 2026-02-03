@@ -143,7 +143,6 @@ export default function AnimationControls({ config, onChange, onReset }: Animati
             </button>
             <button
               onClick={() => {
-                console.log('Current config:', JSON.stringify(config, null, 2));
                 navigator.clipboard.writeText(JSON.stringify(config, null, 2));
               }}
               className="flex-1 bg-cyan-400/20 hover:bg-cyan-400/30 text-cyan-400 text-xs py-2 rounded"
@@ -152,7 +151,7 @@ export default function AnimationControls({ config, onChange, onReset }: Animati
             </button>
           </div>
 
-          <div className="text-[10px] text-zinc-600 mt-2">
+          <div className="text-xs text-zinc-600 mt-2">
             Press R to replay entry animation
           </div>
         </div>

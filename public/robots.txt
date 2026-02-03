@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mujeeb.xyz/sitemap.xml
