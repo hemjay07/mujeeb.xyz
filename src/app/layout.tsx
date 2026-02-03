@@ -18,25 +18,27 @@ export default function RootLayout({
 }>) {
   const pathname = usePathname();
   const isHomePage = pathname === '/';
-  const [isLoading, setIsLoading] = useState(true);
+  const [showPreloader, setShowPreloader] = useState(true);
   const [isFirstVisit, setIsFirstVisit] = useState(true);
-  const [galleryReady, setGalleryReady] = useState(false);
+  const [galleryMounted, setGalleryMounted] = useState(false);
 
   // Check if first visit on mount
   useEffect(() => {
     const hasVisited = sessionStorage.getItem('portfolio-visited');
     if (hasVisited) {
+      // Returning visitor - skip preloader, mount gallery immediately
       setIsFirstVisit(false);
-      setIsLoading(false);
-      setGalleryReady(true);
+      setShowPreloader(false);
+      setGalleryMounted(true);
     }
   }, []);
 
   const handlePreloaderComplete = () => {
     sessionStorage.setItem('portfolio-visited', 'true');
-    setIsLoading(false);
-    // Small delay to ensure smooth transition, then trigger gallery animation
-    setTimeout(() => setGalleryReady(true), 100);
+    setShowPreloader(false);
+    // Mount gallery AFTER preloader fades out - this ensures fresh Three.js initialization
+    // and visitors see the full entry animation
+    setTimeout(() => setGalleryMounted(true), 100);
   };
 
   return (
@@ -112,12 +114,15 @@ export default function RootLayout({
       </head>
       <body className="antialiased bg-[#0a0a0f]">
         {/* Preloader - only on first visit */}
-        {isLoading && isFirstVisit && <Preloader onComplete={handlePreloaderComplete} />}
+        {showPreloader && isFirstVisit && <Preloader onComplete={handlePreloaderComplete} />}
 
-        {/* Gallery always mounted - stays underneath other pages */}
-        <main className={`overflow-hidden ${isLoading && isFirstVisit ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}>
-          <Gallery startAnimation={galleryReady} />
-        </main>
+        {/* Gallery - only mount after preloader completes (or immediately for returning visitors)
+            This ensures Three.js initializes fresh and the entry animation plays fully */}
+        {galleryMounted && (
+          <main className="overflow-hidden">
+            <Gallery />
+          </main>
+        )}
 
         {/* Other pages layer on top with fade */}
         {!isHomePage && (

@@ -11,11 +11,7 @@ import ArchiveSection from './ArchiveSection';
 import CaseStudyView from '../CaseStudy/CaseStudyView';
 import { AnimationConfig, defaultConfig } from '../Debug/AnimationControls';
 
-interface GalleryProps {
-  startAnimation?: boolean;
-}
-
-export default function Gallery({ startAnimation = true }: GalleryProps) {
+export default function Gallery() {
   const pathname = usePathname();
   const isHomePage = pathname === '/';
   const { isMobile, isHydrated } = useIsMobile();
@@ -63,7 +59,6 @@ export default function Gallery({ startAnimation = true }: GalleryProps) {
     onCaseStudyOpen: handleCaseStudyOpen,
     isCaseStudyOpen,
     config,
-    startAnimation,
   });
 
   useEffect(() => {
