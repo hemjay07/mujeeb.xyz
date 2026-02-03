@@ -40,6 +40,13 @@ const easeInOutCubic = (t: number) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 
 const smoothEase = (t: number, s: number) => (easeOutQuint(t) + (1 - Math.pow(1 - t, s))) / 2;
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
+// Scroll physics constants
+const SCROLL_FRICTION = 0.92; // Deceleration factor (lower = more friction)
+const SCROLL_SENSITIVITY = 0.0015; // Wheel sensitivity (slower)
+const TOUCH_SENSITIVITY = 0.003; // Touch drag sensitivity (slower)
+const SNAP_STRENGTH = 0.08; // How strongly it snaps to cards
+const MIN_VELOCITY = 0.0001; // Threshold to stop scrolling
+
 // Create bent plane geometry (parabolic bend - center forward, edges back)
 function createBentPlane(width: number, height: number, bend: number): THREE.PlaneGeometry {
   const geo = new THREE.PlaneGeometry(width, height, 64, 48);
@@ -143,6 +150,12 @@ export function useThreeGallery({
   const animStartTimeRef = useRef<number | null>(null);
   const entryCompleteRef = useRef(false);
   const currentBendRef = useRef(0);
+
+  // Scroll physics state
+  const scrollVelocityRef = useRef(0);
+  const lastScrollTimeRef = useRef(0);
+  const isScrollingRef = useRef(false);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Transition state
   const transitionProgressRef = useRef(0);
@@ -323,13 +336,36 @@ export function useThreeGallery({
 
     cardsRef.current = cards;
 
-    // Start entry animation
-    animStartTimeRef.current = performance.now();
-    entryCompleteRef.current = false;
-    currentBendRef.current = 0;
-    stripGroup.position.y = cfg.stripScroll;
-    stripGroup.position.z = cfg.entryZ;
-    stripGroup.rotation.x = cfg.entryTilt;
+    // Check if user has already seen the entry animation this session
+    const hasSeenEntry = sessionStorage.getItem('gallery-entry-seen') === 'true';
+
+    if (hasSeenEntry) {
+      // Skip entry animation - start in final state
+      animStartTimeRef.current = null;
+      entryCompleteRef.current = true;
+      currentBendRef.current = cfg.galleryBend;
+      stripGroup.position.set(0, 0, 0);
+      stripGroup.rotation.x = 0;
+
+      // Set all cards to final state
+      cards.forEach(card => {
+        (card.material as THREE.MeshBasicMaterial).opacity = 1;
+        const oldGeo = card.geometry;
+        card.geometry = createBentPlane(cfg.cardWidth, cfg.cardHeight, cfg.galleryBend);
+        oldGeo.dispose();
+      });
+    } else {
+      // First visit - play entry animation
+      animStartTimeRef.current = performance.now();
+      entryCompleteRef.current = false;
+      currentBendRef.current = 0;
+      stripGroup.position.y = cfg.stripScroll;
+      stripGroup.position.z = cfg.entryZ;
+      stripGroup.rotation.x = cfg.entryTilt;
+
+      // Mark as seen for this session
+      sessionStorage.setItem('gallery-entry-seen', 'true');
+    }
 
     // Event handlers
     const handleResize = () => {
@@ -341,21 +377,63 @@ export function useThreeGallery({
     const handleWheel = (e: WheelEvent) => {
       const cfg = configRef.current;
       if (!entryCompleteRef.current || isCaseStudyOpenRef.current || isTransitioningRef.current) return;
-      targetScrollYRef.current += e.deltaY * 0.0025;
-      targetScrollYRef.current = Math.max(0, Math.min(targetScrollYRef.current, (projects.length - 1) * cfg.spacing));
+
+      // Normalize wheel delta (trackpad vs mouse wheel)
+      const delta = e.deltaMode === 1 ? e.deltaY * 20 : e.deltaY;
+
+      // Add to velocity instead of directly to position
+      scrollVelocityRef.current += delta * SCROLL_SENSITIVITY;
+      isScrollingRef.current = true;
+      lastScrollTimeRef.current = performance.now();
+
+      // Clear existing timeout and set new one for scroll end
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+      scrollTimeoutRef.current = setTimeout(() => {
+        isScrollingRef.current = false;
+      }, 150);
     };
 
     let touchY = 0;
+    let lastTouchY = 0;
+    let lastTouchTime = 0;
+    let touchVelocity = 0;
+
     const handleTouchStart = (e: TouchEvent) => {
       touchY = e.touches[0].clientY;
+      lastTouchY = touchY;
+      lastTouchTime = performance.now();
+      touchVelocity = 0;
+      isScrollingRef.current = true;
+      scrollVelocityRef.current = 0; // Stop any existing momentum
     };
 
     const handleTouchMove = (e: TouchEvent) => {
       const cfg = configRef.current;
       if (!entryCompleteRef.current || isCaseStudyOpenRef.current || isTransitioningRef.current) return;
-      targetScrollYRef.current += (touchY - e.touches[0].clientY) * 0.005;
+
+      const currentY = e.touches[0].clientY;
+      const currentTime = performance.now();
+      const deltaY = lastTouchY - currentY;
+      const deltaTime = currentTime - lastTouchTime;
+
+      // Calculate instantaneous velocity
+      if (deltaTime > 0) {
+        touchVelocity = deltaY / deltaTime * 16; // Normalize to ~60fps
+      }
+
+      // Apply scroll directly during drag
+      targetScrollYRef.current += deltaY * TOUCH_SENSITIVITY;
       targetScrollYRef.current = Math.max(0, Math.min(targetScrollYRef.current, (projects.length - 1) * cfg.spacing));
-      touchY = e.touches[0].clientY;
+
+      lastTouchY = currentY;
+      lastTouchTime = currentTime;
+      touchY = currentY;
+    };
+
+    const handleTouchEnd = () => {
+      // Transfer touch velocity to scroll velocity for momentum
+      scrollVelocityRef.current = touchVelocity * TOUCH_SENSITIVITY * 0.5;
+      isScrollingRef.current = false;
     };
 
     const handleClick = (event: MouseEvent) => {
@@ -388,6 +466,7 @@ export function useThreeGallery({
     window.addEventListener('wheel', handleWheel, { passive: true });
     window.addEventListener('touchstart', handleTouchStart, { passive: true });
     window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd, { passive: true });
     window.addEventListener('keydown', handleKeyDown);
     renderer.domElement.addEventListener('click', handleClick);
 
@@ -533,9 +612,43 @@ export function useThreeGallery({
         }
       }
 
-      // Normal scroll (only in gallery mode)
+      // Normal scroll (only in gallery mode) - Physics-based
       if (entryCompleteRef.current && !isCaseStudyOpenRef.current && !isTransitioningRef.current) {
-        scrollYRef.current += (targetScrollYRef.current - scrollYRef.current) * 0.12;
+        const maxScroll = (projects.length - 1) * cfg.spacing;
+
+        // Apply velocity to target
+        if (Math.abs(scrollVelocityRef.current) > MIN_VELOCITY) {
+          targetScrollYRef.current += scrollVelocityRef.current;
+
+          // Apply friction to velocity
+          scrollVelocityRef.current *= SCROLL_FRICTION;
+
+          // Clamp target within bounds
+          targetScrollYRef.current = Math.max(0, Math.min(targetScrollYRef.current, maxScroll));
+
+          // Bounce back if past edges (rubber band effect)
+          if (targetScrollYRef.current <= 0 || targetScrollYRef.current >= maxScroll) {
+            scrollVelocityRef.current *= 0.5; // Reduce velocity at edges
+          }
+        } else {
+          scrollVelocityRef.current = 0;
+        }
+
+        // Snap to nearest card when not actively scrolling
+        if (!isScrollingRef.current && Math.abs(scrollVelocityRef.current) < MIN_VELOCITY * 10) {
+          const nearestCard = Math.round(targetScrollYRef.current / cfg.spacing) * cfg.spacing;
+          const snapDelta = nearestCard - targetScrollYRef.current;
+
+          // Apply snap with spring-like easing
+          if (Math.abs(snapDelta) > 0.001) {
+            targetScrollYRef.current += snapDelta * SNAP_STRENGTH;
+          }
+        }
+
+        // Smooth interpolation to target (exponential ease-out)
+        const scrollDelta = targetScrollYRef.current - scrollYRef.current;
+        const scrollSpeed = 0.12 + Math.min(Math.abs(scrollDelta) * 0.05, 0.15); // Dynamic speed
+        scrollYRef.current += scrollDelta * scrollSpeed;
 
         cardsRef.current.forEach((card, i) => {
           // Position based on scroll
@@ -572,6 +685,8 @@ export function useThreeGallery({
       window.removeEventListener('wheel', handleWheel);
       window.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleTouchEnd);
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
       window.removeEventListener('keydown', handleKeyDown);
       renderer.domElement.removeEventListener('click', handleClick);
 

@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { Project } from '@/data/projects';
 
 interface GalleryUIProps {
@@ -30,17 +31,22 @@ export default function GalleryUI({
           !isVisible ? 'fade-out' : ''
         }`}
       >
-        {/* Nav logo - terminal style */}
-        <div className="absolute top-9 left-12 flex items-center gap-3">
-          <div className="status-dot" />
-          <span className="font-mono text-xs text-zinc-500 tracking-wider">
-            mujeeb.dev
-          </span>
+        {/* Nav logo - terminal style with velocity stat */}
+        <div className="absolute top-9 left-12">
+          <div className="flex items-center gap-3">
+            <div className="status-dot" />
+            <span className="font-mono text-xs text-zinc-500 tracking-wider">
+              mujeeb.dev
+            </span>
+          </div>
+          <div className="mt-1.5 ml-5 font-mono text-[10px] text-zinc-600 tracking-wide">
+            13 projects · 3 months
+          </div>
         </div>
 
         {/* Project counter */}
         <div className="font-mono text-6xl font-bold mb-6 pointer-events-auto">
-          <span className="text-accent glow-accent">{projectNumber}</span>
+          <span className="text-accent">{projectNumber}</span>
           <span className="text-zinc-600 text-2xl mx-2">/</span>
           <span className="text-zinc-600 text-2xl">{totalNumber}</span>
         </div>
@@ -99,14 +105,15 @@ export default function GalleryUI({
         ))}
       </div>
 
-      {/* About button - top right */}
-      <button
-        className={`fixed top-9 right-12 font-mono text-xs tracking-wider uppercase cursor-pointer transition-colors duration-300 z-[500] ${
+      {/* About button - top right (hidden on mobile, GalleryCarousel has its own) */}
+      <Link
+        href="/about"
+        className={`hidden md:block fixed top-9 right-12 font-mono text-xs tracking-wider uppercase cursor-pointer transition-colors duration-300 z-[500] ${
           isVisible ? 'text-zinc-500 hover:text-accent' : 'text-zinc-700'
         }`}
       >
         /about
-      </button>
+      </Link>
     </>
   );
 }

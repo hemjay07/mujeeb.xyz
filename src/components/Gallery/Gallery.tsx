@@ -1,13 +1,20 @@
 'use client';
 
 import { useRef, useState, useCallback, useEffect } from 'react';
-import { projects } from '@/data/projects';
+import { usePathname } from 'next/navigation';
+import { featuredProjects } from '@/data/projects';
 import { useThreeGallery, GalleryControls } from '@/hooks/useThreeGallery';
+import { useIsMobile } from '@/hooks/useIsMobile';
 import GalleryUI from './GalleryUI';
+import GalleryCarousel from './GalleryCarousel';
+import ArchiveSection from './ArchiveSection';
 import CaseStudyView from '../CaseStudy/CaseStudyView';
 import { AnimationConfig, defaultConfig } from '../Debug/AnimationControls';
 
 export default function Gallery() {
+  const pathname = usePathname();
+  const isHomePage = pathname === '/';
+  const { isMobile, isHydrated } = useIsMobile();
   const canvasContainerRef = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isCaseStudyOpen, setIsCaseStudyOpen] = useState(false);
@@ -17,7 +24,8 @@ export default function Gallery() {
   const [config] = useState<AnimationConfig>(defaultConfig);
   const galleryControlsRef = useRef<GalleryControls | null>(null);
 
-  const currentProject = projects[currentIndex];
+  // Use featured projects for main gallery
+  const currentProject = featuredProjects[currentIndex];
 
   const handleIndexChange = useCallback((index: number) => {
     setCurrentIndex(index);
@@ -44,7 +52,7 @@ export default function Gallery() {
   }, [isTransitioning]);
 
   const galleryControls = useThreeGallery({
-    projects,
+    projects: featuredProjects,
     containerRef: canvasContainerRef,
     onIndexChange: handleIndexChange,
     onCaseStudyOpen: handleCaseStudyOpen,
@@ -64,14 +72,18 @@ export default function Gallery() {
     setIsTransitioning(true);
     setShowCaseUI(false);
     setIsCaseStudyOpen(false); // This triggers background class changes
-    galleryControls.closeCaseStudy();
+
+    // Only call Three.js close on desktop
+    if (!isMobile) {
+      galleryControls.closeCaseStudy();
+    }
 
     // After transition completes (700ms), show gallery UI
     setTimeout(() => {
       setShowGalleryUI(true);
       setIsTransitioning(false);
     }, 700);
-  }, [galleryControls, isTransitioning]);
+  }, [galleryControls, isTransitioning, isMobile]);
 
   const handleDotClick = useCallback((index: number) => {
     galleryControls.goToProject(index);
@@ -82,15 +94,17 @@ export default function Gallery() {
   }, [galleryControls]);
 
   const handleNavigateToProject = useCallback((projectId: string) => {
-    const newIndex = projects.findIndex(p => p.id === projectId);
-    if (newIndex !== -1 && galleryControlsRef.current) {
-      // Swap visible card in Three.js and update scroll position
-      galleryControlsRef.current.goToProjectInCaseStudy(newIndex);
-      setCurrentIndex(newIndex);
+    const featuredIndex = featuredProjects.findIndex(p => p.id === projectId);
+    if (featuredIndex !== -1) {
+      // On desktop, swap visible card in Three.js
+      if (!isMobile && galleryControlsRef.current) {
+        galleryControlsRef.current.goToProjectInCaseStudy(featuredIndex);
+      }
+      setCurrentIndex(featuredIndex);
       // Scroll to top when navigating to new project
       window.scrollTo(0, 0);
     }
-  }, []);
+  }, [isMobile]);
 
 
   // Theme class for dynamic accent colors
@@ -120,10 +134,11 @@ export default function Gallery() {
         }`}
       />
 
-      {/* Three.js canvas container - stays visible, card animates */}
+      {/* Three.js canvas container - always rendered, hidden on mobile via CSS */}
       <div
         ref={canvasContainerRef}
         id="canvas-container"
+        className={isMobile ? 'hidden' : ''}
       />
 
       {/* Reveal curtain for transitions - dark themed */}
@@ -132,23 +147,44 @@ export default function Gallery() {
         style={{ backgroundColor: '#0f0f14' }}
       />
 
-      {/* Gallery UI */}
-      <GalleryUI
-        project={currentProject}
-        currentIndex={currentIndex}
-        totalProjects={projects.length}
-        isVisible={showGalleryUI}
-        onOpenCaseStudy={handleOpenCaseStudy}
-        onDotClick={handleDotClick}
-      />
+      {/* Desktop Gallery UI - only on home page */}
+      {isHomePage && (
+        <GalleryUI
+          project={currentProject}
+          currentIndex={currentIndex}
+          totalProjects={featuredProjects.length}
+          isVisible={showGalleryUI && !isMobile}
+          onOpenCaseStudy={handleOpenCaseStudy}
+          onDotClick={handleDotClick}
+        />
+      )}
 
-      {/* Case Study View */}
-      <CaseStudyView
-        project={currentProject}
-        isVisible={showCaseUI}
-        onClose={handleCloseCaseStudy}
-        onNavigateToProject={handleNavigateToProject}
-      />
+      {/* Mobile: Carousel Gallery - only on home page */}
+      {isHomePage && isHydrated && isMobile && !isCaseStudyOpen && (
+        <GalleryCarousel
+          projects={featuredProjects}
+          currentIndex={currentIndex}
+          onIndexChange={handleIndexChange}
+          onOpenCaseStudy={handleCaseStudyOpen}
+        />
+      )}
+
+      {/* Case Study View (works on both platforms) - only on home page */}
+      {isHomePage && (
+        <CaseStudyView
+          project={currentProject}
+          isVisible={showCaseUI}
+          onClose={handleCloseCaseStudy}
+          onNavigateToProject={handleNavigateToProject}
+        />
+      )}
+
+      {/* Archive Section - only on home page, not in case study */}
+      {isHomePage && !isCaseStudyOpen && (
+        <div className="hidden md:block fixed bottom-8 left-1/2 -translate-x-1/2 z-30">
+          <ArchiveSection />
+        </div>
+      )}
     </div>
   );
 }

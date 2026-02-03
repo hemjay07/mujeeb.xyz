@@ -34,6 +34,12 @@
   --accent-glow: rgba(139, 92, 246, 0.5);
 }
 
+.theme-privkit {
+  --accent-primary: #14b8a6;
+  --accent-secondary: #0d9488;
+  --accent-glow: rgba(20, 184, 166, 0.5);
+}
+
 .theme-truthbounty {
   --accent-primary: #3b82f6;
   --accent-secondary: #f59e0b;
@@ -74,6 +80,36 @@
   --accent-primary: #f97316;
   --accent-secondary: #fbbf24;
   --accent-glow: rgba(249, 115, 22, 0.5);
+}
+
+.theme-microroulette {
+  --accent-primary: #F59E0B;
+  --accent-secondary: #D97706;
+  --accent-glow: rgba(245, 158, 11, 0.5);
+}
+
+.theme-x402arcade {
+  --accent-primary: #3b82f6;
+  --accent-secondary: #2563eb;
+  --accent-glow: rgba(59, 130, 246, 0.5);
+}
+
+.theme-terracred {
+  --accent-primary: #ef4444;
+  --accent-secondary: #dc2626;
+  --accent-glow: rgba(239, 68, 68, 0.5);
+}
+
+.theme-speedbet-arena {
+  --accent-primary: #10b981;
+  --accent-secondary: #059669;
+  --accent-glow: rgba(16, 185, 129, 0.5);
+}
+
+.theme-bountynet {
+  --accent-primary: #a855f7;
+  --accent-secondary: #9333ea;
+  --accent-glow: rgba(168, 85, 247, 0.5);
 }
 
 /* Note: Tailwind v4's preflight already resets margin/padding.
@@ -342,6 +378,26 @@ body {
   }
 }
 
+/* Page transitions */
+.page-enter {
+  animation: page-fade-in 250ms ease-out forwards;
+}
+
+.page-exit {
+  animation: page-fade-out 250ms ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes page-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes page-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
 /* Case study layers */
 .case-content-wrapper {
   z-index: 22;
@@ -521,4 +577,185 @@ body {
 
 .glow-accent {
   text-shadow: 0 0 20px var(--accent-glow);
+}
+
+/* ============================================
+   MOBILE STYLES
+   Responsive styles for mobile devices (<768px)
+   ============================================ */
+
+/* Mobile Gallery Carousel */
+.mobile-carousel {
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.mobile-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.mobile-carousel-card {
+  flex: 0 0 95%;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+}
+
+/* Mobile-specific overrides */
+@media (max-width: 767px) {
+  /* Hide desktop gallery UI on mobile */
+  .gallery-ui {
+    display: none !important;
+  }
+
+  .nav-indicators {
+    display: none !important;
+  }
+
+  /* Mobile header */
+  .mobile-header {
+    height: 56px;
+    padding: 0.75rem 1rem;
+  }
+
+  /* Touch-friendly buttons */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Mobile typography */
+  h1, .text-5xl, .text-6xl, .text-7xl {
+    font-size: 1.875rem !important;
+    line-height: 1.15 !important;
+  }
+
+  h2, .text-4xl {
+    font-size: 1.5rem !important;
+    line-height: 1.2 !important;
+  }
+
+  h3, .text-3xl {
+    font-size: 1.25rem !important;
+  }
+
+  /* Reduce padding on mobile */
+  .px-16, .px-12 {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  .py-32, .py-24 {
+    padding-top: 4rem !important;
+    padding-bottom: 4rem !important;
+  }
+
+  /* Mobile stats bar */
+  .stats-bar {
+    gap: 12px;
+    font-size: 0.65rem;
+  }
+
+  /* Smaller text adjustments */
+  .text-sm {
+    font-size: 0.875rem;
+  }
+
+  /* Mobile case study adjustments */
+  .case-content-wrapper {
+    scroll-behavior: smooth;
+  }
+
+  /* Fixed elements positioning */
+  .fixed.top-10 {
+    top: 1rem !important;
+  }
+
+  .fixed.left-12, .fixed.left-16 {
+    left: 1rem !important;
+  }
+
+  .fixed.right-12, .fixed.right-16 {
+    right: 1rem !important;
+  }
+
+  .fixed.bottom-32 {
+    bottom: 6rem !important;
+  }
+
+  /* Mobile card in case study */
+  .mobile-phone-frame {
+    width: 160px !important;
+  }
+}
+
+/* Portrait orientation adjustments */
+@media (max-width: 767px) and (max-height: 700px) {
+  h1, .text-5xl, .text-6xl, .text-7xl {
+    font-size: 1.5rem !important;
+  }
+
+  .h-\[70vh\], .h-\[60vh\] {
+    height: 45vh !important;
+  }
+}
+
+/* Remove hover states on touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .hover\:bg-zinc-800:hover {
+    background-color: inherit;
+  }
+
+  .hover\:border-accent:hover {
+    border-color: inherit;
+  }
+
+  .group:hover .group-hover\:translate-x-1 {
+    transform: none;
+  }
+}
+
+/* Swipe hint animation */
+@keyframes swipe-hint {
+  0%, 100% {
+    opacity: 0.5;
+    transform: translateX(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(5px);
+  }
+}
+
+.animate-swipe-hint {
+  animation: swipe-hint 1.5s ease-in-out infinite;
+}
+
+/* Mobile dot indicator */
+.mobile-dot {
+  transition: all 0.3s ease;
+}
+
+.mobile-dot.active {
+  width: 2rem;
+  background-color: var(--accent-primary);
+}
+
+/* Pulse animation for swipe hint */
+@keyframes pulse-gentle {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.animate-pulse-gentle {
+  animation: pulse-gentle 2s ease-in-out infinite;
 }
