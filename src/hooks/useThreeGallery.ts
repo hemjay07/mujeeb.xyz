@@ -24,6 +24,7 @@ interface UseThreeGalleryProps {
   onCaseStudyOpen: () => void;
   isCaseStudyOpen: boolean;
   config: AnimationConfig;
+  startAnimation?: boolean;
 }
 
 export interface GalleryControls {
@@ -125,6 +126,7 @@ export function useThreeGallery({
   onCaseStudyOpen,
   isCaseStudyOpen,
   config,
+  startAnimation = true,
 }: UseThreeGalleryProps): GalleryControls {
   const sceneRef = useRef<THREE.Scene | null>(null);
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
@@ -167,9 +169,22 @@ export function useThreeGallery({
   // Store starting position for smooth transition
   const transitionStartPos = useRef({ x: 0, y: 0, z: 0, scale: 1 });
 
+  // Track startAnimation prop
+  const startAnimationRef = useRef(startAnimation);
+  const animationTriggeredRef = useRef(false);
+
   useEffect(() => {
     isCaseStudyOpenRef.current = isCaseStudyOpen;
   }, [isCaseStudyOpen]);
+
+  // Watch for startAnimation to become true and trigger entry animation
+  useEffect(() => {
+    startAnimationRef.current = startAnimation;
+    if (startAnimation && !animationTriggeredRef.current && stripGroupRef.current) {
+      animationTriggeredRef.current = true;
+      animStartTimeRef.current = performance.now();
+    }
+  }, [startAnimation]);
 
   const replayEntry = useCallback(() => {
     const cfg = configRef.current;
@@ -343,16 +358,24 @@ export function useThreeGallery({
     entryCompleteRef.current = false;
     currentBendRef.current = 0;
     animStartTimeRef.current = null; // Not started yet
+    animationTriggeredRef.current = false; // Reset for fresh mount
 
     // Keep cards invisible until animation starts
     cards.forEach(card => {
       (card.material as THREE.MeshBasicMaterial).opacity = 0;
     });
 
-    // Delay before animation begins (400ms)
-    setTimeout(() => {
-      animStartTimeRef.current = performance.now();
-    }, 400);
+    // Only start animation if startAnimation is already true (returning visitor)
+    // Otherwise, the useEffect watching startAnimation will trigger it later
+    if (startAnimationRef.current) {
+      // Delay before animation begins (400ms)
+      setTimeout(() => {
+        if (!animationTriggeredRef.current) {
+          animationTriggeredRef.current = true;
+          animStartTimeRef.current = performance.now();
+        }
+      }, 400);
+    }
 
     // Event handlers
     const handleResize = () => {

@@ -1,11 +1,14 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { featuredProjects } from '@/data/projects';
 
 interface PreloaderProps {
   onComplete: () => void;
 }
+
+// Minimum display time so visitors can read the content (2 seconds)
+const MIN_DISPLAY_TIME = 2000;
 
 // Get the 7 priority images (gallery hero images)
 const PRIORITY_IMAGES = featuredProjects.map(p => p.heroImage);
@@ -21,6 +24,8 @@ export default function Preloader({ onComplete }: PreloaderProps) {
   const [showReady, setShowReady] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
   const [showCursor, setShowCursor] = useState(true);
+  const startTimeRef = useRef<number>(Date.now());
+  const imagesLoadedRef = useRef(false);
 
   const totalImages = PRIORITY_IMAGES.length;
   const progress = Math.round((loadedCount / totalImages) * 100);
@@ -32,6 +37,36 @@ export default function Preloader({ onComplete }: PreloaderProps) {
     }, 530);
     return () => clearInterval(interval);
   }, []);
+
+  // Function to complete the preloader (called when both conditions are met)
+  const finishPreloader = useCallback(() => {
+    setShowReady(true);
+    // Short pause to show "ready" then fade out
+    setTimeout(() => {
+      setFadeOut(true);
+      setTimeout(() => {
+        onComplete();
+        // Start loading secondary images in background
+        loadSecondaryImages();
+      }, 400);
+    }, 600);
+  }, [onComplete]);
+
+  // Check if we can finish (images loaded AND minimum time passed)
+  const checkCanFinish = useCallback(() => {
+    const elapsed = Date.now() - startTimeRef.current;
+    const remainingTime = Math.max(0, MIN_DISPLAY_TIME - elapsed);
+
+    if (imagesLoadedRef.current) {
+      if (remainingTime > 0) {
+        // Wait for remaining minimum time
+        setTimeout(finishPreloader, remainingTime);
+      } else {
+        // Minimum time already passed, finish now
+        finishPreloader();
+      }
+    }
+  }, [finishPreloader]);
 
   // Preload priority images
   useEffect(() => {
@@ -63,23 +98,15 @@ export default function Preloader({ onComplete }: PreloaderProps) {
     // Load all priority images in parallel
     Promise.all(PRIORITY_IMAGES.map(preloadImage)).then(() => {
       if (mounted) {
-        setShowReady(true);
-        // Short pause to show "ready" then fade out
-        setTimeout(() => {
-          setFadeOut(true);
-          setTimeout(() => {
-            onComplete();
-            // Start loading secondary images in background
-            loadSecondaryImages();
-          }, 400);
-        }, 500);
+        imagesLoadedRef.current = true;
+        checkCanFinish();
       }
     });
 
     return () => {
       mounted = false;
     };
-  }, [onComplete]);
+  }, [checkCanFinish]);
 
   // Background load secondary images
   const loadSecondaryImages = useCallback(() => {
