@@ -36,7 +36,7 @@ export default function GalleryUI({
           <div className="flex items-center gap-3">
             <div className="status-dot" />
             <span className="font-mono text-xs text-zinc-500 tracking-wider">
-              mujeeb.dev
+              mujeeb.xyz
             </span>
           </div>
           <div className="mt-1.5 ml-5 font-mono text-[10px] text-zinc-600 tracking-wide">

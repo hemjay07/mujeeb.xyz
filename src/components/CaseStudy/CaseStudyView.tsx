@@ -591,7 +591,7 @@ export default function CaseStudyView({
                 </div>
               </div>
               <p className="font-mono text-xs text-zinc-700 mt-8 md:mt-12">
-                © 2025 mujeeb.dev — Built with Next.js & Three.js
+                © 2026 mujeeb.xyz — Built with Next.js & Three.js
               </p>
             </div>
           </footer>

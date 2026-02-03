@@ -104,7 +104,7 @@ export default function GalleryCarousel({
         <div>
           <div className="flex items-center gap-2">
             <div className="w-1.5 h-1.5 rounded-full bg-accent" />
-            <span className="font-mono text-[10px] text-zinc-500">mujeeb.dev</span>
+            <span className="font-mono text-[10px] text-zinc-500">mujeeb.xyz</span>
           </div>
           <div className="font-mono text-[9px] text-zinc-600 ml-3.5">
             13 projects · 3 months

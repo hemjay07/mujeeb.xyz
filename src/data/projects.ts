@@ -385,8 +385,8 @@ export const projects: Project[] = [
 
     achievements: [
       '6,679 lines of TypeScript across 44 files',
-      'Targeting $30,000 in hackathon bounties',
       '20 React components, 7 API endpoints',
+      'Real ShadowPay SDK integration',
     ],
 
     features: [
