@@ -69,7 +69,7 @@ export default function GalleryUI({
         {/* Terminal-style CTA */}
         <button
           onClick={onOpenCaseStudy}
-          className="terminal-cta pointer-events-auto focus:outline-none focus:ring-2 focus:ring-accent/50 rounded"
+          className="terminal-cta pointer-events-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 rounded"
         >
           view_project<span className="blink">_</span>
         </button>
@@ -95,7 +95,7 @@ export default function GalleryUI({
           <button
             key={i}
             onClick={() => onDotClick(i)}
-            className={`w-1 transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/50 rounded-sm ${
+            className={`w-1 transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 rounded-sm ${
               i === currentIndex
                 ? 'h-8 bg-accent'
                 : 'h-4 bg-zinc-700 hover:bg-zinc-500'
@@ -108,7 +108,7 @@ export default function GalleryUI({
       {/* About button - top right (hidden on mobile, GalleryCarousel has its own) */}
       <Link
         href="/about"
-        className={`hidden md:block fixed top-9 right-12 font-mono text-xs tracking-wider uppercase cursor-pointer transition-colors duration-300 z-[500] focus:outline-none focus:ring-2 focus:ring-accent/50 rounded px-2 py-1 ${
+        className={`hidden md:block fixed top-9 right-12 font-mono text-xs tracking-wider uppercase cursor-pointer transition-colors duration-300 z-[500] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 rounded px-2 py-1 ${
           isVisible ? 'text-zinc-500 hover:text-accent' : 'text-zinc-700'
         }`}
       >

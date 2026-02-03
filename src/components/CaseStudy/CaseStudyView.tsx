@@ -156,7 +156,7 @@ export default function CaseStudyView({
         {/* Back button */}
         <button
           onClick={onClose}
-          className="fixed top-4 md:top-10 left-4 md:left-16 font-mono text-sm tracking-wider cursor-pointer flex items-center gap-2 text-white md:text-zinc-500 hover:text-white transition-colors pointer-events-auto group z-40 min-h-[44px] focus:outline-none focus:ring-2 focus:ring-accent/50 rounded px-2"
+          className="fixed top-4 md:top-10 left-4 md:left-16 font-mono text-sm tracking-wider cursor-pointer flex items-center gap-2 text-white md:text-zinc-500 hover:text-white transition-colors pointer-events-auto group z-40 min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 rounded px-2"
         >
           <span className="group-hover:-translate-x-1 transition-transform">←</span>
           <span>cd</span>
@@ -239,7 +239,7 @@ export default function CaseStudyView({
         {/* Scroll indicator - desktop only */}
         <button
           onClick={handleScrollIndicatorClick}
-          className="hidden md:flex fixed bottom-10 left-1/2 -translate-x-1/2 flex-col items-center gap-3 cursor-pointer pointer-events-auto group transition-all duration-500 focus:outline-none focus:ring-2 focus:ring-accent/50 rounded px-4 py-2"
+          className="hidden md:flex fixed bottom-10 left-1/2 -translate-x-1/2 flex-col items-center gap-3 cursor-pointer pointer-events-auto group transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 rounded px-4 py-2"
           style={{
             opacity: heroOpacity,
             transform: `translateX(-50%) translateY(${(1 - heroOpacity) * 20}px)`
@@ -311,7 +311,7 @@ export default function CaseStudyView({
                     <button
                       key={i}
                       onClick={() => setScreenshotIndex(i)}
-                      className={`h-2 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-accent/50 ${
+                      className={`h-2 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 ${
                         i === screenshotIndex
                           ? 'bg-accent w-8'
                           : 'bg-white/50 hover:bg-white/80 w-2'
@@ -551,7 +551,7 @@ export default function CaseStudyView({
                 </span>
                 <button
                   onClick={handleNextProject}
-                  className="w-full flex items-center justify-between group cursor-pointer py-4 md:py-6 border-t border-zinc-800 hover:border-accent/30 transition-colors min-h-[64px] focus:outline-none focus:ring-2 focus:ring-accent/50 rounded"
+                  className="w-full flex items-center justify-between group cursor-pointer py-4 md:py-6 border-t border-zinc-800 hover:border-accent/30 transition-colors min-h-[64px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 rounded"
                 >
                   <div className="flex items-baseline gap-3 md:gap-6">
                     <span className="font-mono text-xs md:text-sm text-zinc-600">
@@ -640,7 +640,7 @@ function FooterLink({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="font-mono text-sm text-zinc-500 hover:text-accent transition-colors relative group focus:outline-none focus:ring-2 focus:ring-accent/50 rounded px-1"
+      className="font-mono text-sm text-zinc-500 hover:text-accent transition-colors relative group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 rounded px-1"
     >
       {children}
       <span className="absolute -bottom-1 left-0 w-0 h-px bg-accent group-hover:w-full transition-all duration-300" />

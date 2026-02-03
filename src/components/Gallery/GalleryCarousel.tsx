@@ -111,7 +111,7 @@ export default function GalleryCarousel({
             13 projects · 3 months
           </div>
         </div>
-        <Link href="/about" className="font-mono text-xs text-zinc-500 hover:text-accent transition-colors focus:outline-none focus:ring-2 focus:ring-accent/50 rounded px-2 py-1">
+        <Link href="/about" className="font-mono text-xs text-zinc-500 hover:text-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 rounded px-2 py-1">
           /about
         </Link>
       </header>
@@ -195,7 +195,7 @@ export default function GalleryCarousel({
             e.stopPropagation();
             onOpenCaseStudy();
           }}
-          className="w-full py-3 bg-accent/10 border border-accent/30 rounded-lg font-mono text-xs text-accent hover:bg-accent/20 transition-all flex items-center justify-center gap-2 min-h-[44px] focus:outline-none focus:ring-2 focus:ring-accent/50"
+          className="w-full py-3 bg-accent/10 border border-accent/30 rounded-lg font-mono text-xs text-accent hover:bg-accent/20 transition-all flex items-center justify-center gap-2 min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
         >
           <span>view_project</span>
           <span>→</span>
@@ -208,7 +208,7 @@ export default function GalleryCarousel({
           <button
             key={i}
             onClick={() => goToProject(i)}
-            className="flex items-center justify-center min-w-[44px] min-h-[44px] focus:outline-none focus:ring-2 focus:ring-accent/50 rounded-full"
+            className="flex items-center justify-center min-w-[44px] min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 rounded-full"
             aria-label={`Go to project ${i + 1}`}
           >
             <span className={`block h-1.5 rounded-full transition-all duration-300 ${

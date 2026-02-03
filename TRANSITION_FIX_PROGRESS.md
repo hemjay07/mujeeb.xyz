@@ -33,8 +33,8 @@ Dual-layer background system with opacity transitions instead of class swapping.
 - [x] Case Study → Gallery: Smooth return (reverse transition works)
 - [x] Project switching works normally
 
-### Step 5: Commit
-- [ ] Commit working implementation (in progress)
+### Step 5: Commit ✅
+- [x] Commit working implementation (624a618)
 
 ---
 
