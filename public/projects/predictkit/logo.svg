@@ -1,0 +1,48 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer circle -->
+  <circle cx="100" cy="100" r="90" fill="#7c3aed" opacity="0.1"/>
+
+  <!-- Main circle -->
+  <circle cx="100" cy="100" r="75" stroke="#7c3aed" stroke-width="3" fill="none"/>
+
+  <!-- Prediction bars (like a chart) -->
+  <g opacity="0.8">
+    <!-- Bar 1 -->
+    <rect x="50" y="110" width="12" height="30" rx="2" fill="#7c3aed"/>
+    <!-- Bar 2 -->
+    <rect x="68" y="95" width="12" height="45" rx="2" fill="#7c3aed"/>
+    <!-- Bar 3 (highlighted) -->
+    <rect x="86" y="75" width="12" height="65" rx="2" fill="#6d28d9"/>
+    <!-- Bar 4 -->
+    <rect x="104" y="85" width="12" height="55" rx="2" fill="#7c3aed"/>
+    <!-- Bar 5 -->
+    <rect x="122" y="70" width="12" height="70" rx="2" fill="#7c3aed"/>
+    <!-- Bar 6 -->
+    <rect x="140" y="60" width="12" height="80" rx="2" fill="#6d28d9"/>
+  </g>
+
+  <!-- Trend line overlay -->
+  <path d="M 50 125 L 68 110 L 86 90 L 104 95 L 122 75 L 152 60"
+        stroke="#10B981"
+        stroke-width="3"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        fill="none"
+        opacity="0.9"/>
+
+  <!-- Prediction points -->
+  <circle cx="50" cy="125" r="4" fill="#10B981"/>
+  <circle cx="68" cy="110" r="4" fill="#10B981"/>
+  <circle cx="86" cy="90" r="4" fill="#10B981"/>
+  <circle cx="104" cy="95" r="4" fill="#10B981"/>
+  <circle cx="122" cy="75" r="4" fill="#10B981"/>
+  <circle cx="152" cy="60" r="5" fill="#10B981"/>
+
+  <!-- Arrow at the end -->
+  <path d="M 148 56 L 152 60 L 148 64"
+        stroke="#10B981"
+        stroke-width="3"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        fill="none"/>
+</svg>

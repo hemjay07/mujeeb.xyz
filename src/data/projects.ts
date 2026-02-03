@@ -9,6 +9,10 @@ export interface Project {
   accent: string;       // Title/accent color
   caseBg: string;       // Case study background (light)
 
+  // Featured vs Archive
+  archived?: boolean;   // If true, shown in archive section instead of main gallery
+  desktopOnly?: boolean; // If true, hidden from mobile gallery (no mobile version)
+
   // The Speed Flex
   buildTime: string;
 
@@ -33,7 +37,7 @@ export interface Project {
   heroImage: string;
   thumbnail: string;
   screenshots: string[];
-  demoVideo?: string;
+  mobileScreenshots?: string[];
 
   // Enhanced Case Study Fields
   achievements?: string[];           // Hackathon placements, metrics, recognition
@@ -47,6 +51,9 @@ export interface Project {
 }
 
 export const projects: Project[] = [
+  // ==================== FEATURED PROJECTS (1-7) ====================
+
+  // 1. PredictKit
   {
     id: 'predictkit',
     title: 'PredictKit',
@@ -66,7 +73,7 @@ export const projects: Project[] = [
 
     role: 'Solo Builder',
     techStack: ['Solidity', 'Foundry', 'TypeScript', 'Next.js 16', 'React 19', 'The Graph', 'wagmi v2', 'viem', 'ethers.js', 'Zustand', 'React Query', 'Tailwind v4', 'BNB Chain'],
-    year: '2024',
+    year: '2025',
     category: 'DeFi / Infrastructure',
 
     liveUrl: 'https://predictkit.io',
@@ -81,7 +88,11 @@ export const projects: Project[] = [
       '/projects/predictkit/trade-light.png',        // Case study carousel 2
       '/projects/predictkit/docs-light.png',         // Case study carousel 3
     ],
-    demoVideo: '/projects/predictkit/demo.mp4',
+    mobileScreenshots: [
+      '/projects/predictkit/mobile-home-light.png',  // Hero - light home page
+      '/projects/predictkit/mobile-docs-scroll.png', // Scroll content - docs page with code
+      '/projects/predictkit/mobile-docs.png',        // Additional mobile screenshot
+    ],
 
     achievements: [
       '119,872 lines of code across 5 packages',
@@ -130,72 +141,488 @@ export const projects: Project[] = [
 
     packages: ['@predictkit/sdk', '@predictkit/react'],
   },
+
+  // 2. TruthBounty
   {
     id: 'truthbounty',
     title: 'TruthBounty',
-    tagline: 'Cross-platform reputation for prediction markets',
-    description: 'The first protocol that aggregates prediction market performance into a unified, soulbound NFT-based identity with Wilson Score anti-gaming.',
+    tagline: 'Turn prediction accuracy into on-chain reputation',
+    description: 'Decentralized reputation protocol aggregating prediction market performance across 6 platforms into soulbound NFT-based identity with Wilson Score anti-gaming.',
 
     color: '#2d1f3d',
     accent: '#c084fc',
     caseBg: '#faf5ff',
 
-    buildTime: '3 months',
+    buildTime: '2 weeks',
 
-    heading: 'Turn Prediction Accuracy Into Verifiable On-Chain Reputation',
-    summary: 'TruthBounty aggregates trading performance across 6+ prediction market platforms (Polymarket, PancakeSwap, Limitless, Overtime, Azuro, SX Bet) into a unified TruthScore. Traders mint soulbound reputation NFTs that evolve with their performance, enabling copy trading with verified track records instead of Twitter followers.',
-    challenge: 'Prediction market traders have no portable way to prove their track record. A winning streak on Polymarket means nothing on PancakeSwap. Every platform is an isolated island—170+ prediction tools exist but no cross-platform reputation infrastructure. No way to distinguish skill from luck.',
-    solution: 'Built a Wilson Score-based reputation system that statistically separates skill from luck. 3/3 wins = 43.8% confidence score (not 100%). Soulbound NFTs with on-chain SVG generation create portable identity. Copy trading vault lets followers mirror top traders with customizable allocation and risk limits.',
+    heading: 'Building a Cross-Platform Reputation Protocol for Prediction Markets',
+    summary: 'TruthBounty is a decentralized reputation protocol that aggregates prediction market performance across platforms (PancakeSwap, Polymarket, Kalshi, etc.) into a unified, soulbound NFT-based identity. Built with Next.js 14, Solidity, and deployed on BNB Chain, it features a statistically-robust Wilson Score algorithm and copy trading functionality. 284,000+ lines of code across 1,295 source files.',
+    challenge: 'Prediction market reputation is fragmented and non-portable. A trader\'s winning streak on Polymarket means nothing on PancakeSwap—every platform is a fresh start. Traditional leaderboards are easily gamed by low-volume lucky wins, and there\'s no way to verify a trader\'s cross-platform track record. This prevents meaningful copy-trading and limits price discovery in prediction markets worth billions annually.',
+    solution: 'Built a universal reputation layer using soulbound NFTs that aggregate performance across 6+ prediction platforms. Implemented Wilson Score Lower Bound statistical method to prevent gaming (3/3 wins = 43.8% score vs. 650/1000 wins = 62.1%). Created on-chain copy trading vaults with time-locked withdrawals, simulation mode for strategy testing, and a 5-tier progression system (Bronze → Diamond).',
 
-    role: 'Lead Engineer',
-    techStack: ['Solidity', 'Foundry', 'Next.js', 'The Graph', 'wagmi', 'Supabase', 'BNB Chain'],
+    role: 'Frontend Vibe-Engineer',
+    techStack: ['Next.js 14', 'TypeScript', 'Solidity', 'Foundry', 'wagmi v2', 'viem', 'RainbowKit', 'Tailwind CSS', 'shadcn/ui', 'Supabase', 'React Query', 'BNB Chain'],
     year: '2024',
     category: 'DeFi / Reputation',
 
     liveUrl: 'https://truth-bounty-4r9b.vercel.app',
     githubUrl: 'https://github.com/Leihyn/TruthBounty',
 
-    heroImage: '/images/projects/truthbounty/hero.png',
-    thumbnail: '/images/projects/truthbounty/thumb.png',
+    heroImage: '/projects/truthbounty/desktop-hero.png',
+    thumbnail: '/projects/truthbounty/desktop-hero.png',
     screenshots: [
-      '/images/projects/truthbounty/screen-1.png',
-      '/images/projects/truthbounty/screen-2.png',
+      '/projects/truthbounty/desktop-hero.png',         // Gallery 3D card
+      '/projects/truthbounty/desktop-leaderboard.png',  // Case study carousel 1
+      '/projects/truthbounty/desktop-markets-new.png',  // Case study carousel 2 - Markets page
+      '/projects/truthbounty/desktop-copytrading.png',  // Case study carousel 3
+    ],
+    mobileScreenshots: [
+      '/projects/truthbounty/mobile-hero.png',        // Hero - home page
+      '/projects/truthbounty/mobile-leaderboard.png', // Scroll content - leaderboard
     ],
 
     achievements: [
-      'Seedify IMO Accepted ($500K structured funding)',
+      '284,002 lines of TypeScript/TSX/Solidity',
       '6 prediction platforms integrated',
-      '2,792 lines of battle-tested smart contracts',
+      '76 backend API endpoints',
+      '5 smart contracts (2,792 lines)',
     ],
 
     features: [
       {
-        title: 'Wilson Score Algorithm',
-        description: 'Statistical confidence intervals that account for sample size. Minimum 10 bets to rank, full score requires 50+ bets. New accounts capped at 50% for 14 days to prevent gaming.',
+        title: 'Soulbound Reputation NFT',
+        description: 'Non-transferable ERC-721 with dynamic on-chain SVG that evolves with your TruthScore (0-1300 max).',
       },
       {
-        title: 'Soulbound Reputation NFTs',
-        description: 'Non-transferable ERC-721 tokens with dynamic on-chain SVG metadata. Visual tiers (Bronze → Diamond) that evolve with performance. Your reputation lives on-chain.',
+        title: 'Anti-Gaming Scoring',
+        description: 'Wilson Score accounts for sample size—requires 50+ bets for full score, preventing lucky-streak manipulation.',
       },
       {
         title: 'Copy Trading Vault',
-        description: 'Follow top traders with one click. Customizable allocation percentages and max bet caps. Simulation mode to test strategies before committing capital.',
-      },
-      {
-        title: 'Multi-Platform Aggregation',
-        description: 'Consolidates data from Polymarket, PancakeSwap Prediction, Limitless, Overtime Markets, Azuro, and SX Bet via The Graph subgraphs and direct APIs.',
+        description: 'Deposit BNB, follow top traders with customizable allocation %, 1-hour time-locked withdrawals, simulation mode for risk-free testing.',
       },
     ],
 
     technicalHighlights: [
-      'Wilson Score lower bound formula ensures 3/3 wins scores 43.8%, not 100%—statistical rigor over raw percentages',
-      'Modular platform adapter architecture allows adding new prediction markets without core contract changes',
-      'On-chain SVG generation for NFT metadata—no external dependencies, fully verifiable',
-      'Real-time indexer service with 60-minute data refresh cycles across 6 platforms',
+      'Wilson Score Algorithm: 95% confidence interval scoring—a 3-win streak scores 43.8% (not 100%), while 650/1000 gets 62.1%',
+      'Dynamic on-chain NFT metadata: Base64-encoded SVG generated entirely in Solidity—no IPFS dependency',
+      'Multi-platform indexer processes 10,000 blocks at a time, polling BSC RPC every 10 seconds with resume-from-checkpoint',
     ],
 
     keyInsight: 'Your winning streak means nothing without proof. Wilson Score separates skill from luck—follow traders with verified 65% win rates, not Twitter followers.',
   },
+
+  // 3. MicroRoulette
+  {
+    id: 'microroulette',
+    title: 'MicroRoulette',
+    tagline: 'Provably fair roulette on Linera',
+    description: 'Production-grade European roulette dApp with SHA256 commit-reveal fairness, sub-second settlement, and all 13 bet types on Linera microchain.',
+
+    color: '#1a0f0f',
+    accent: '#F59E0B', // Gold - casino aesthetic
+    caseBg: '#fffbeb',
+
+    buildTime: '4 days',
+
+    heading: 'Provably Fair Casino Gaming on Microchains',
+    summary: 'MicroRoulette is a European roulette dApp running on Linera\'s microchain blockchain. 7,300+ lines of Rust and Vue.js featuring provably fair randomness via SHA256 commit-reveal, sub-second settlement, and all 13 standard bet types with correct payouts.',
+    challenge: 'Traditional online casinos are black boxes—players can\'t verify fairness. Blockchain casinos exist but suffer from high latency and expensive transactions. Fast, verifiable, low-cost casino gaming doesn\'t exist.',
+    solution: 'Built on Linera\'s microchain architecture for sub-second finality. SHA256 commit-reveal for provably fair outcomes. All 13 European roulette bet types (Straight 35:1 to Even/Odd 1:1) with correct payouts. Saturating arithmetic prevents overflow exploits.',
+
+    role: 'Solo Builder',
+    techStack: ['Rust', 'Linera SDK', 'Vue 3', 'Vite', 'Tailwind CSS', 'Docker', 'WASM'],
+    year: '2026',
+    category: 'Gaming / Casino',
+
+    githubUrl: 'https://github.com/hemjay07/micro-roulette',
+
+    heroImage: '/projects/microroulette/desktop-hero.png',
+    thumbnail: '/projects/microroulette/desktop-hero.png',
+    screenshots: [
+      '/projects/microroulette/desktop-hero.png',
+      '/projects/microroulette/desktop-game.png',
+    ],
+    mobileScreenshots: [
+      '/projects/microroulette/mobile-hero.png',
+      '/projects/microroulette/mobile-game.png',
+    ],
+
+    achievements: [
+      '7,316 lines of code across Rust and Vue.js',
+      'Built for Linera Hackathon',
+      'All 13 European roulette bet types',
+      'Deployed on Linera Conway Testnet',
+    ],
+
+    features: [
+      {
+        title: 'Provably Fair System',
+        description: 'SHA256 commit-reveal—server seed + client seed + nonce hashed for verifiable results.',
+      },
+      {
+        title: 'Sub-Second Settlement',
+        description: 'Linera microchain enables near-instant bets and payouts. No waiting for confirmations.',
+      },
+      {
+        title: 'Complete Bet Coverage',
+        description: 'All 13 European roulette bets: Straight, Split, Street, Corner, Six Line, Red/Black, Odd/Even, Dozens, Columns.',
+      },
+    ],
+
+    technicalHighlights: [
+      'Saturating arithmetic prevents overflow exploits',
+      'Atomic transactions—all payouts succeed or none',
+      'Multi-layer bet validation with geometric rules',
+    ],
+  },
+
+  // 4. PrivKit
+  {
+    id: 'privkit',
+    title: 'PrivKit',
+    tagline: 'Zero to private in one command',
+    description: 'CLI scaffolding tool for Solana privacy development. Think create-react-app, but for blockchain privacy—scaffolds production-ready projects with Privacy Cash, Light Protocol, or Arcium SDKs.',
+
+    color: '#0a1f1c',
+    accent: '#14b8a6', // Teal - privacy + Solana vibes
+    caseBg: '#ecfdf5',
+
+    buildTime: '5 days',
+
+    heading: 'The create-react-app for Solana Privacy Development',
+    summary: 'PrivKit is a CLI that scaffolds complete Solana privacy applications in seconds. 644 lines of TypeScript CLI code, 3,026 lines of web app, 21 React components, and 4 privacy SDK templates (84 template files). Run npx create-solana-privacy-app, choose your privacy SDK, and get a fully configured project with Helius RPC, wallet adapter, and dark theme.',
+    challenge: 'Solana privacy development is fragmented. Three major SDKs exist (Privacy Cash, Light Protocol, Arcium) but each has different setup requirements, Node versions, RPC configurations, and testing patterns. Developers spend hours reading docs before writing a single line of privacy code. No unified scaffolding tool exists.',
+    solution: 'Built a CLI that abstracts all complexity. Interactive prompts guide template selection, inject Helius API keys via Handlebars templating, auto-detect package managers, and generate production-ready projects. Four templates cover every use case: privacy-cash (private transfers), light-protocol (5000x cheaper compressed tokens), arcium (MPC computation), and full-stack (all three combined).',
+
+    role: 'Solo Builder',
+    techStack: ['TypeScript', 'Node.js', 'Commander.js', 'Inquirer.js', 'Handlebars', 'Chalk', 'Ora', 'Zod', 'Next.js 14', 'Tailwind CSS', 'Solana', 'Helius', 'Vitest'],
+    year: '2026',
+    category: 'Developer Tools / Privacy',
+
+    liveUrl: 'https://privkit.vercel.app',
+    githubUrl: 'https://github.com/hemjay07/PrivKit',
+
+    heroImage: '/projects/privkit/hero.png',
+    thumbnail: '/projects/privkit/hero.png',
+    screenshots: [
+      '/projects/privkit/hero.png',
+      '/projects/privkit/terminal.png',
+      '/projects/privkit/structure.png',
+    ],
+    mobileScreenshots: [
+      '/projects/privkit/mobile-hero.png',
+      '/projects/privkit/mobile-terminal.png',
+      '/projects/privkit/mobile-structure.png',
+    ],
+
+    achievements: [
+      '115 source files across CLI and web app',
+      '3,670 lines of TypeScript/TSX code',
+      '4 privacy SDK templates (84 template files)',
+      'Published on npm as create-solana-privacy-app',
+    ],
+
+    features: [
+      {
+        title: 'One-Command Scaffolding',
+        description: 'npx create-solana-privacy-app creates a complete project. Interactive prompts for project name, template, package manager, and masked API key input. Non-interactive mode with -y flag for CI/CD.',
+      },
+      {
+        title: '4 Privacy Templates',
+        description: 'Privacy Cash (ZK private transfers), Light Protocol (5000x cheaper via compression), Arcium (MPC computation), and Full-Stack (unified API comparing all SDKs).',
+      },
+      {
+        title: 'Helius Integration',
+        description: 'Pre-configured Helius RPC for optimal Solana performance. API keys injected via Handlebars templating during scaffolding.',
+      },
+    ],
+
+    technicalHighlights: [
+      'Commander.js CLI with @inquirer/prompts for interactive setup',
+      'Handlebars templating processes 84 template files per scaffold',
+      'Auto-detection of npm/yarn/pnpm with appropriate lockfile generation',
+      'ASCII banner with Chalk styling and Ora spinners for polished UX',
+    ],
+
+    keyInsight: 'Privacy development should start with code, not configuration. PrivKit reduces Solana privacy setup from hours to seconds.',
+
+    packages: ['create-solana-privacy-app'],
+  },
+
+  // 5. PayShield
+  {
+    id: 'payshield',
+    title: 'PayShield',
+    tagline: 'Private payroll for Web3',
+    description: 'Confidential payroll on Solana with dual-layer privacy—ShadowPay pool deposits and Bulletproofs zero-knowledge withdrawals. 6,679 lines of TypeScript.',
+
+    color: '#0a1628',
+    accent: '#22d3ee',
+    caseBg: '#ecfeff',
+
+    buildTime: '2 weeks',
+
+    heading: 'Pay Your Team Without Revealing Who Earns What',
+    summary: 'PayShield is a confidential payroll application for Solana. Employers fund private payroll batches using ShadowPay\'s zero-knowledge proof technology, ensuring contributor salaries remain hidden on-chain. 6,679 lines of TypeScript, 20 React components, 7 API endpoints, and real ShadowPay SDK integration.',
+    challenge: 'On-chain payroll exposes every employee\'s salary on public blockchains. Competitors can poach talent by seeing compensation. Hackers target wallets with known large balances. DAOs and Web3 companies need the same payroll privacy that traditional companies take for granted.',
+    solution: 'Built dual-layer privacy architecture: employer deposits enter ShadowPay privacy pools (ElGamal encryption, mixing with other deposits), recipients claim with 2-step authorize→settle flow using Bulletproofs ZK proofs that hide exact amounts. Claim codes use confusion-resistant alphabet (no 0/O/I/1/l) for error-free transcription.',
+
+    role: 'Solo Builder',
+    techStack: ['Next.js 14', 'TypeScript', 'React', 'Tailwind CSS', 'shadcn/ui', 'Solana Web3.js', 'ShadowPay SDK', 'Vercel KV', 'Papa Parse'],
+    year: '2026',
+    category: 'Privacy / Payments',
+
+    liveUrl: 'https://payshield-one.vercel.app',
+    githubUrl: 'https://github.com/hemjay07/payshield',
+
+    heroImage: '/projects/payshield/hero.png',
+    thumbnail: '/projects/payshield/hero.png',
+    screenshots: [
+      '/projects/payshield/hero.png',
+      '/projects/payshield/claim.png',
+    ],
+
+    achievements: [
+      '6,679 lines of TypeScript across 44 files',
+      'Targeting $30,000 in hackathon bounties',
+      '20 React components, 7 API endpoints',
+    ],
+
+    features: [
+      {
+        title: 'Privacy Pool Deposits',
+        description: 'Employer deposits enter ShadowPay shared pool with ElGamal encryption. Multiple employers\' deposits mix together, breaking the link between depositor and funds.',
+      },
+      {
+        title: 'ZK Withdrawals',
+        description: '2-step authorize→settle with Bulletproofs hides exact amounts. On-chain observers see a withdrawal happened but not how much.',
+      },
+      {
+        title: 'Claim Code System',
+        description: 'Codes use confusion-resistant alphabet (ABCDEFGHJKLMNPQRSTUVWXYZ23456789). Lamport-precise distribution handles cryptocurrency splits with zero loss.',
+      },
+    ],
+
+    technicalHighlights: [
+      'Dual-layer privacy: ElGamal pool mixing (deposits) + Bulletproofs (withdrawals)',
+      '2-step ZK withdrawal: authorize → settle with zero-knowledge proof',
+      'Lamport-precise distributeEvenly() handles remainders without precision loss',
+      'Demo mode attempts real ShadowPay API, logs response, then falls back gracefully',
+    ],
+
+    keyInsight: 'Salary transparency is a feature for job seekers, not employers. PayShield gives DAOs the payroll privacy that traditional companies take for granted.',
+  },
+
+  // 6. VeilPass
+  {
+    id: 'veilpass',
+    title: 'VeilPass',
+    tagline: 'Privacy that passes compliance',
+    description: 'Prove KYC, AML, and accredited investor status without revealing personal data—AES-256-GCM encryption and cryptographic commitment schemes for RWA tokenization.',
+
+    color: '#1f1f2e',
+    accent: '#8b5cf6',
+    caseBg: '#f5f3ff',
+
+    buildTime: '48 hours',
+
+    heading: 'Privacy-Preserving Compliance for Real World Assets',
+    summary: 'VeilPass enables users to prove compliance (KYC verified, AML passed, accredited investor) without exposing personal information. 5,370 lines of TypeScript, 30 React components, AES-256-GCM encryption with IV/AuthTag verification, and SHA-256 commitment schemes for zero-knowledge compliance proofs.',
+    challenge: 'Tokenizing real-world assets requires compliance verification, but traditional KYC exposes sensitive personal data on public blockchains. Users face a choice: privacy or compliance. RWA platforms can\'t scale without solving this.',
+    solution: 'Implemented cryptographic commitments using AES-256-GCM authenticated encryption. Attestations prove compliance claims without revealing underlying data. Selective disclosure with time-limited links (1-30 day TTL) and access count limits (1-100). Two-phase verification prevents race conditions.',
+
+    role: 'Solo Builder',
+    techStack: ['Next.js 14', 'TypeScript', 'React', 'Tailwind CSS', 'Solana Web3.js', 'Vercel KV', 'Zod', 'Radix UI'],
+    year: '2026',
+    category: 'Privacy / Compliance',
+
+    liveUrl: 'https://veilpass-app.vercel.app',
+
+    heroImage: '/projects/veilpass/hero.png',
+    thumbnail: '/projects/veilpass/hero.png',
+    screenshots: [
+      '/projects/veilpass/hero.png',
+      '/projects/veilpass/dashboard.png',
+    ],
+    mobileScreenshots: [
+      '/projects/veilpass/mobile-hero.png',
+      '/projects/veilpass/mobile-dashboard.png',
+    ],
+
+    achievements: [
+      '5,370 lines of TypeScript across 54 files',
+      '30 React components, 4 API endpoints',
+      'Zero on-chain contracts (off-chain attestations)',
+    ],
+
+    features: [
+      {
+        title: 'AES-256-GCM Encryption',
+        description: 'Authenticated encryption with proper IV and AuthTag handling. Personal data encrypted client-side before any server interaction.',
+      },
+      {
+        title: 'Selective Disclosure',
+        description: 'Choose exactly which compliance claims to share. Time-limited links (1-30 days), access count limits (1-100), automatic expiration.',
+      },
+      {
+        title: 'Zero-Knowledge Proofs',
+        description: 'SHA-256 commitment scheme (holder + claimsHash + salt) proves compliance without revealing underlying personal data.',
+      },
+    ],
+
+    technicalHighlights: [
+      'AES-256-GCM with randomBytes(16) IV and getAuthTag() verification',
+      'SHA-256 commitment: hash(holder + claimsHash + salt) for ZK proofs',
+      'Two-phase verification: pre-check before incrementing access counter',
+      'CSS-only confetti animation respecting prefers-reduced-motion',
+    ],
+
+    keyInsight: 'Compliance doesn\'t require surveillance. VeilPass proves you passed the test without showing your answers.',
+  },
+
+  // 7. X402Arcade
+  {
+    id: 'x402arcade',
+    title: 'X402Arcade',
+    tagline: 'Pay-per-play arcade with gasless USDC',
+    description: 'Retro arcade with 5 games, HTTP 402 payment protocol, and EIP-3009 gasless USDC transfers. 257K lines of TypeScript across a pnpm monorepo.',
+
+    color: '#1a1a2e',
+    accent: '#00d4ff', // Cyan - arcade logo color
+    caseBg: '#eff6ff',
+
+    desktopOnly: true, // No mobile version - arcade games require keyboard
+
+    buildTime: '86 hours',
+
+    heading: 'Gasless Arcade Gaming with HTTP 402 Payments',
+    summary: 'X402Arcade is a retro arcade platform with 5 classic games (Snake, Tetris, Pong, Breakout, Space Invaders) powered by the x402 protocol. 257,000 lines of TypeScript, 695 files, 110 React components, custom game engine with AABB collision detection. Pay with EIP-3009 gasless USDC signatures—no gas fees, instant play.',
+    challenge: 'Web3 gaming suffers from gas fee friction. Every game session requires wallet approval, gas estimation, and transaction confirmation. Microtransactions for arcade plays become impractical when gas exceeds the play cost.',
+    solution: 'Built on x402 protocol: HTTP 402 Payment Required responses trigger EIP-3009 TransferWithAuthorization signatures. Gasless USDC transfers with typed data signing. Custom Express middleware handles payment flow. 70% of payments fund daily/weekly prize pool jackpots.',
+
+    role: 'Solo Builder',
+    techStack: ['React', 'TypeScript', 'Vite', 'Phaser 3', 'Three.js', 'Express', 'wagmi', 'viem', 'Zustand', 'Redis', 'SQLite', 'Cronos'],
+    year: '2026',
+    category: 'Gaming / Payments',
+
+    liveUrl: 'https://x402arcade.vercel.app',
+    githubUrl: 'https://github.com/Ayobalen/x402Arcade',
+
+    heroImage: '/projects/x402arcade/hero.png',
+    thumbnail: '/projects/x402arcade/hero.png',
+    screenshots: [
+      '/projects/x402arcade/hero.png',
+      '/projects/x402arcade/games.png',
+      '/projects/x402arcade/gameplay.png',
+    ],
+    // No mobileScreenshots - desktop only project
+
+    achievements: [
+      '257,000 lines of TypeScript across 695 files',
+      '110 React components, 39 custom hooks',
+      '5 arcade games with custom collision engine',
+      'Built for Cronos x402 Hackathon',
+    ],
+
+    features: [
+      {
+        title: 'x402 Payment Protocol',
+        description: 'HTTP 402 Payment Required flow with Express middleware. EIP-3009 TransferWithAuthorization for gasless USDC—sign once, play instantly.',
+      },
+      {
+        title: 'Custom Game Engine',
+        description: 'AABB collision detection with Minimum Translation Vector (MTV) calculations. Separating axis theorem implementation. 60 FPS canvas rendering.',
+      },
+      {
+        title: 'Prize Pool System',
+        description: '70% of payments fund daily/weekly jackpots. Per-game leaderboards with on-chain payouts to top players.',
+      },
+    ],
+
+    technicalHighlights: [
+      'EIP-712 typed data signing prevents signature reuse across chains',
+      'Exponential backoff with jitter (±10%) prevents thundering herd',
+      'Auto-quality detection adjusts rendering based on device capabilities',
+      '35+ accessibility hooks with ARIA live regions and keyboard navigation',
+    ],
+
+    keyInsight: 'Gas fees killed microtransactions. x402 brings them back—HTTP-native payments with gasless signatures.',
+  },
+
+  // ==================== ARCHIVED PROJECTS ====================
+
+  // Archived 1. Terracred (formerly MantleCred)
+  {
+    id: 'terracred',
+    title: 'TerraCred',
+    tagline: 'Borrow against tokenized real estate',
+    description: 'DeFi lending platform on Mantle Network—tokenize property into RWA tokens and borrow mNGN stablecoin without selling your assets.',
+
+    color: '#1a1a1a',
+    accent: '#ef4444',
+    caseBg: '#fef2f2',
+
+    archived: true,
+
+    buildTime: '3 weeks',
+
+    heading: 'Unlock Liquidity From Real Estate Without Selling',
+    summary: 'TerraCred bridges traditional real estate with DeFi on Mantle Network. Property owners tokenize real estate into fungible RWA tokens, deposit as collateral, and borrow mNGN stablecoin (pegged to Nigerian Naira). Automated liquidation at 120% health factor maintains platform solvency.',
+    challenge: 'Real estate owners in emerging markets (specifically Nigeria) are asset-rich but cash-poor. Traditional banks require months for property loans. Selling means losing the asset. There\'s no way to access liquidity from property quickly.',
+    solution: 'Built a lending protocol where property becomes liquid collateral. Submit property for KYC verification, receive RWA tokens representing ownership, deposit tokens to borrow up to 66.67% LTV in mNGN. Oracle service updates prices every 60 minutes. Automated liquidation service monitors health factors.',
+
+    role: 'Lead Engineer',
+    techStack: ['Solidity', 'Foundry', 'Next.js', 'Express', 'SQLite', 'wagmi', 'Mantle'],
+    year: '2025',
+    category: 'DeFi / RWA',
+
+    githubUrl: 'https://github.com/hemjay07/MantleCred',
+
+    heroImage: '/projects/terracred/hero.png',
+    thumbnail: '/projects/terracred/hero.png',
+    screenshots: [
+      '/projects/terracred/hero.png',
+      '/projects/terracred/screen-1.png',
+      '/projects/terracred/screen-2.png',
+    ],
+
+    achievements: [
+      'Built for Mantle Global Hackathon 2025',
+      '69/71 features validated (97.2% completion)',
+      'Full smart contract suite deployed on Mantle Sepolia',
+    ],
+
+    features: [
+      {
+        title: 'Property Tokenization',
+        description: 'Submit property details (address, valuation, documents) for KYC verification. Approved properties mint fungible RWA tokens representing fractional ownership.',
+      },
+      {
+        title: 'Collateralized Lending',
+        description: 'Deposit RWA tokens, borrow up to 66.67% LTV in mNGN stablecoin. 10% annual interest rate, 12-month loan terms. Repay anytime to withdraw collateral.',
+      },
+      {
+        title: 'Automated Oracle',
+        description: 'Price oracle service updates property valuations every 60 minutes. Staleness protection prevents stale price exploitation.',
+      },
+      {
+        title: 'Liquidation Engine',
+        description: 'Automated service monitors health factors. Positions below 120% trigger liquidation. Maintains platform solvency without manual intervention.',
+      },
+    ],
+
+    technicalHighlights: [
+      'Four core contracts: LendingPool.sol, PriceOracle.sol, mNGN.sol (stablecoin), RWAToken.sol (property tokens)',
+      'Express backend with ethers.js for oracle updates and liquidation monitoring',
+      'RainbowKit integration with automatic Mantle network switching',
+      'Estimated mainnet deployment cost: ~0.05 MNT for entire contract suite',
+    ],
+
+    keyInsight: 'In emerging markets, property is the primary store of wealth. TerraCred turns illiquid real estate into DeFi-native collateral.',
+  },
+
+  // Archived 2. Foresight
   {
     id: 'foresight',
     title: 'Foresight',
@@ -206,7 +633,9 @@ export const projects: Project[] = [
     accent: '#34d399',
     caseBg: '#ecfdf5',
 
-    buildTime: '3 weeks',
+    archived: true,
+
+    buildTime: '1 week',
 
     heading: 'Fantasy Sports Meets Crypto Twitter Culture',
     summary: 'Foresight is a Web3 fantasy platform where you draft teams of CT influencers ranked by tier (S/A/B/C), compete in daily prediction gauntlets, and battle in 1v1 arena duels. Real-time scoring based on actual Twitter engagement metrics. 67 tracked influencers including Vitalik, Michael Saylor, and PlanB.',
@@ -221,11 +650,16 @@ export const projects: Project[] = [
     liveUrl: 'https://foresight.game',
     githubUrl: 'https://github.com/Yonkoo11/foresight',
 
-    heroImage: '/images/projects/foresight/hero.png',
-    thumbnail: '/images/projects/foresight/thumb.png',
+    heroImage: '/projects/foresight/desktop-hero.png',
+    thumbnail: '/projects/foresight/desktop-hero.png',
     screenshots: [
-      '/images/projects/foresight/screen-1.png',
-      '/images/projects/foresight/screen-2.png',
+      '/projects/foresight/desktop-hero.png',
+      '/projects/foresight/desktop-league.png',
+      '/projects/foresight/desktop-intel.png',
+    ],
+    mobileScreenshots: [
+      '/projects/foresight/mobile-home.png',
+      '/projects/foresight/mobile-team.png',
     ],
 
     achievements: [
@@ -262,6 +696,8 @@ export const projects: Project[] = [
 
     keyInsight: 'Fantasy sports proved people will pay to compete on knowledge. Foresight brings that to the one topic crypto natives care about most: Crypto Twitter itself.',
   },
+
+  // Archived 3. IdealMe
   {
     id: 'idealme',
     title: 'IdealMe',
@@ -271,6 +707,8 @@ export const projects: Project[] = [
     color: '#3d2314',
     accent: '#fb923c',
     caseBg: '#fff7ed',
+
+    archived: true,
 
     buildTime: '3 weeks',
 
@@ -286,11 +724,10 @@ export const projects: Project[] = [
 
     githubUrl: 'https://github.com/hemjay07/Ideal-me',
 
-    heroImage: '/images/projects/idealme/hero.png',
-    thumbnail: '/images/projects/idealme/thumb.png',
+    heroImage: '/projects/idealme/hero.png',
+    thumbnail: '/projects/idealme/hero.png',
     screenshots: [
-      '/images/projects/idealme/screen-1.png',
-      '/images/projects/idealme/screen-2.png',
+      '/projects/idealme/hero.png',
     ],
 
     achievements: [
@@ -327,6 +764,71 @@ export const projects: Project[] = [
 
     keyInsight: 'The best ideas come at 2am. IdealMe is the command center for builders who never stop—capture everything, miss nothing, win more hackathons.',
   },
+
+  // Archived 4. SpeedBet Arena
+  {
+    id: 'speedbet-arena',
+    title: 'SpeedBet Arena',
+    tagline: '1v1 crypto price prediction battles',
+    description: '1v1 crypto price prediction battles where players bet on BTC/ETH movements and winner takes all—built on Linera microchains.',
+
+    color: '#1a1a1a',
+    accent: '#10b981', // Emerald
+    caseBg: '#ecfdf5',
+
+    archived: true,
+
+    buildTime: '2 weeks',
+
+    heading: 'Head-to-Head Crypto Price Prediction on Microchains',
+    summary: 'SpeedBet Arena is a 1v1 betting platform where players wager on BTC/ETH price movements. Built on Linera microchains with Rust/WASM smart contracts, featuring on-chain matchmaking, escrow system, and cross-chain messaging. Vue 3 frontend with real-time Chart.js price visualization.',
+    challenge: 'Traditional prediction markets are slow and impersonal. Players want fast, competitive, head-to-head action—not anonymous pool betting with delayed resolution.',
+    solution: 'Built a 1v1 arena on Linera microchains. Sub-second finality enables real-time matches. On-chain escrow holds stakes, winner takes all. Linera Views (MapView, QueueView, RegisterView) provide persistent state across matches.',
+
+    role: 'Solo Builder',
+    techStack: ['Vue 3', 'Vite', 'Chart.js', 'Rust', 'WASM', 'Linera SDK', 'Linera Views'],
+    year: '2026',
+    category: 'Gaming / Betting',
+
+    liveUrl: 'https://speedbet-arena.vercel.app',
+    githubUrl: 'https://github.com/Ayobalen/speedbet-arena',
+
+    heroImage: '/projects/speedbet-arena/hero.png',
+    thumbnail: '/projects/speedbet-arena/hero.png',
+    screenshots: ['/projects/speedbet-arena/hero.png'],
+
+    achievements: [
+      'Built for Linera Hackathon 2026',
+      '995/995 features complete (100% coverage)',
+      'Full on-chain matchmaking and escrow',
+      'Deployed on Linera Conway Testnet',
+    ],
+
+    features: [
+      {
+        title: '1v1 Matchmaking',
+        description: 'Create or join matches with custom stakes. On-chain matchmaking pairs players instantly. No waiting for pool fills.',
+      },
+      {
+        title: 'On-Chain Escrow',
+        description: 'Stakes locked in smart contract escrow. Winner takes all automatically on resolution. No trust required.',
+      },
+      {
+        title: 'Real-Time Price Charts',
+        description: 'Chart.js visualization of BTC/ETH price movements. Watch your prediction play out in real-time.',
+      },
+    ],
+
+    technicalHighlights: [
+      'Linera Views for persistent state: MapView (matches), QueueView (matchmaking), RegisterView (balances)',
+      'Cross-chain messaging for multi-application communication',
+      'Rust/WASM contracts with linera-sdk 0.15.8',
+    ],
+
+    keyInsight: 'Prediction markets don\'t need to be slow. Linera microchains enable the speed competitive players demand.',
+  },
+
+  // Archived 5. SignalHive
   {
     id: 'signalhive',
     title: 'SignalHive',
@@ -337,26 +839,27 @@ export const projects: Project[] = [
     accent: '#f472b6',
     caseBg: '#fdf2f8',
 
-    buildTime: '2 weeks',
+    archived: true,
+
+    buildTime: '11 days',
 
     heading: 'The First Truly Transparent Trading Strategy Marketplace',
     summary: 'SignalHive streams live trading strategies executing on Somnia blockchain. Real-time performance metrics (PnL, Sharpe ratio, win rate, drawdown) update instantly via Somnia Data Streams. Every trade is on-chain and verifiable—no black boxes, no fake track records.',
     challenge: 'Trading signals are black boxes. Sellers claim 90% win rates with no verification. Buyers lose money following unproven strategies. The entire signal selling industry is built on trust that doesn\'t exist.',
-    solution: 'Built a marketplace where every trade is on-chain. Three demo strategies (Momentum, Mean Reversion, Grid) deployed as smart contracts. Real-time WebSocket updates via Somnia Data Streams. Subscribers can verify historical performance before copy-trading.',
+    solution: 'Built a marketplace where every trade is on-chain. Enriched queries fetch balance + positions on trade events. Multi-stream subscriptions update trades, metrics, and leaderboard simultaneously. Real-time Sharpe ratio, drawdown, and PnL calculations on every trade.',
 
     role: 'Solo Builder',
-    techStack: ['Next.js', 'TypeScript', 'Solidity', 'Foundry', 'Somnia', 'WebSocket', 'wagmi'],
+    techStack: ['Next.js 14', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Solidity', 'Foundry', 'Somnia Data Streams', 'wagmi', 'viem', 'Zustand'],
     year: '2025',
     category: 'DeFi / Trading',
 
-    liveUrl: 'https://signalhive.vercel.app',
+    liveUrl: 'https://signalhivee.vercel.app',
     githubUrl: 'https://github.com/hemjay07/signalhive',
 
-    heroImage: '/images/projects/signalhive/hero.png',
-    thumbnail: '/images/projects/signalhive/thumb.png',
+    heroImage: '/projects/signalhive/hero.png',
+    thumbnail: '/projects/signalhive/hero.png',
     screenshots: [
-      '/images/projects/signalhive/screen-1.png',
-      '/images/projects/signalhive/screen-2.png',
+      '/projects/signalhive/hero.png',
     ],
 
     achievements: [
@@ -393,200 +896,41 @@ export const projects: Project[] = [
 
     keyInsight: 'Trading signals are only as good as their verification. SignalHive makes every trade on-chain—if you can\'t verify it, don\'t trade it.',
   },
+
+  // Archived 6. BountyNet
   {
-    id: 'veilpass',
-    title: 'VeilPass',
-    tagline: 'Privacy that passes compliance',
-    description: 'Prove KYC, AML, and accredited investor status without revealing personal data—cryptographic attestations with selective disclosure for RWA tokenization.',
+    id: 'bountynet',
+    title: 'BountyNet',
+    tagline: 'AI agents race for bounties',
+    description: 'Competitive AI agent marketplace where GPT-4 and Claude race to answer questions for USDC micropayment rewards on Cronos.',
 
-    color: '#1f1f2e',
-    accent: '#8b5cf6',
-    caseBg: '#f5f3ff',
+    color: '#1f1a2e',
+    accent: '#a855f7', // Purple
+    caseBg: '#faf5ff',
 
-    buildTime: '2 weeks',
+    archived: true,
 
-    heading: 'Privacy-Preserving Compliance for Real World Assets',
-    summary: 'VeilPass enables users to prove compliance (KYC verified, AML passed, accredited investor) without exposing personal information. Cryptographic attestations with salt-based hashing, selective disclosure to auditors, and time-limited access links. Built for tokenizing real-world assets on Solana.',
-    challenge: 'Tokenizing real-world assets requires compliance verification, but traditional KYC exposes sensitive personal data on public blockchains. Users face a choice: privacy or compliance. RWA platforms can\'t scale without solving this.',
-    solution: 'Implemented cryptographic commitments where personal data never leaves the user\'s device. Attestations prove compliance claims without revealing underlying data. Selective disclosure lets users share only specific claims with auditors via time-limited links.',
+    buildTime: '1 week',
+
+    heading: 'AI Agents Race for Bounties',
+    summary: 'BountyNet is a competitive AI agent marketplace. Post a task with a USDC bounty, and 3 specialized AI agents (GPT-4 and Claude) race in parallel to answer. Watch live "thinking" streams as agents compete. Winner gets instant USDC payout via gasless EIP-3009 transfers on Cronos.',
+    challenge: 'AI services charge flat fees regardless of quality. Users pay whether the answer is good or bad. No competition means no incentive for speed or accuracy.',
+    solution: 'Built a real-time racing system where multiple AI agents compete in parallel. Socket.IO streams live thinking progress. Winner determined by first correct answer. x402 micropayments enable instant, gasless USDC payouts to winning agents.',
 
     role: 'Solo Builder',
-    techStack: ['Next.js', 'TypeScript', 'Solana', 'Helius', 'Vercel KV', 'Tailwind'],
+    techStack: ['React', 'TypeScript', 'Vite', 'Express', 'Socket.IO', 'SQLite', 'Tailwind CSS', 'Zustand', 'Framer Motion', 'Cronos', 'x402', 'OpenAI', 'Claude'],
     year: '2026',
-    category: 'Privacy / Compliance',
+    category: 'AI / Payments',
 
-    liveUrl: 'https://veilpass.vercel.app',
-
-    heroImage: '/images/projects/veilpass/hero.png',
-    thumbnail: '/images/projects/veilpass/thumb.png',
-    screenshots: [
-      '/images/projects/veilpass/screen-1.png',
-      '/images/projects/veilpass/screen-2.png',
-    ],
+    heroImage: '/projects/bountynet/hero.png',
+    thumbnail: '/projects/bountynet/hero.png',
+    screenshots: ['/projects/bountynet/hero.png'],
 
     achievements: [
-      'Built for Solana Privacy Hack 2026',
-      '130/130 features passing verification',
-      'Eligible for $30,500 in bounties',
+      'Built for Cronos x402 Hackathon',
+      '3 AI agents racing in parallel',
+      'Real-time thinking streams via Socket.IO',
     ],
-
-    features: [
-      {
-        title: 'Cryptographic Attestations',
-        description: 'Generate compliance attestations with salt-based hashing. Prove claims (KYC_VERIFIED, AML_PASSED, ACCREDITED_INVESTOR) without exposing data.',
-      },
-      {
-        title: 'Selective Disclosure',
-        description: 'Choose exactly which compliance claims to share with auditors. Create time-limited links with access count limits. Full control over your data.',
-      },
-      {
-        title: 'Secret File Management',
-        description: 'Download attestation secrets for secure local storage. Upload to create disclosures. Your keys, your data, your privacy.',
-      },
-      {
-        title: 'Compliance Claims',
-        description: 'Five supported claim types: KYC_VERIFIED, AML_PASSED, ACCREDITED_INVESTOR, JURISDICTION_COMPLIANT, SOURCE_OF_FUNDS_VERIFIED.',
-      },
-    ],
-
-    technicalHighlights: [
-      'Client-side cryptographic commitment generation—personal data never touches servers',
-      'Salt-based hashing for claim verification without revealing underlying values',
-      'JWT-free signed message authentication using Solana wallet signatures',
-      'TTL-based storage expiration with Vercel KV for automatic link invalidation',
-    ],
-
-    keyInsight: 'Compliance doesn\'t require surveillance. VeilPass proves you passed the test without showing your answers.',
-  },
-  {
-    id: 'payshield',
-    title: 'PayShield',
-    tagline: 'Private payroll for Web3',
-    description: 'Pay your team without revealing who earns what—dual-layer privacy with ShadowPay pools and Bulletproofs zero-knowledge withdrawals.',
-
-    color: '#0a1628',
-    accent: '#22d3ee',
-    caseBg: '#ecfeff',
-
-    buildTime: '2 weeks',
-
-    heading: 'Pay Your Team Without Revealing Who Earns What',
-    summary: 'PayShield solves on-chain payroll privacy. Employers deposit to a shared privacy pool (breaking deposit links), then distribute claim codes to recipients who withdraw with hidden amounts via Bulletproofs ZK proofs. No on-chain connection between employer and employee salaries.',
-    challenge: 'On-chain payroll exposes every employee\'s salary on public blockchains. Competitors can poach talent by seeing compensation. Hackers target wallets with known large balances. DAOs need private payroll.',
-    solution: 'Built dual-layer privacy: employer deposits enter ShadowPay privacy pools (mixing with other deposits), recipients claim with Bulletproofs zero-knowledge proofs that hide exact amounts. Claim codes distributed off-chain (email, Slack). 7-day vesting and withdrawal limits prevent exploitation.',
-
-    role: 'Solo Builder',
-    techStack: ['Next.js', 'TypeScript', 'Solana', 'ShadowPay', 'Helius', 'Vercel KV', 'Bulletproofs'],
-    year: '2026',
-    category: 'Privacy / Payments',
-
-    liveUrl: 'https://payshield.vercel.app',
-
-    heroImage: '/images/projects/payshield/hero.png',
-    thumbnail: '/images/projects/payshield/thumb.png',
-    screenshots: [
-      '/images/projects/payshield/screen-1.png',
-      '/images/projects/payshield/screen-2.png',
-    ],
-
-    achievements: [
-      'Built for Solana Privacy Hack 2026',
-      '305 verified features across 67 sessions',
-      'Eligible for $30,000 in bounties (ShadowPay + Helius + Private Payments)',
-    ],
-
-    features: [
-      {
-        title: 'Privacy Pool Deposits',
-        description: 'Employer deposits enter ShadowPay shared pool. Multiple employers\' deposits mix together, breaking the link between depositor and funds.',
-      },
-      {
-        title: 'Bulletproofs Withdrawals',
-        description: 'Recipients claim payments with zero-knowledge proofs that hide exact amounts. On-chain observers see a withdrawal happened but not how much.',
-      },
-      {
-        title: 'Claim Code Distribution',
-        description: 'Generate unique codes (PAYSHIELD-XXXX-XXXX format) for each recipient. Distribute via email, Slack, Signal—off-chain delivery, on-chain privacy.',
-      },
-      {
-        title: 'Enterprise Features',
-        description: 'CSV import for bulk recipients, split equally function, batch templates, search and sort, copy all codes with one click.',
-      },
-    ],
-
-    technicalHighlights: [
-      'Dual-layer privacy architecture: pool mixing (deposits) + Bulletproofs (withdrawals)',
-      'Real ShadowPay SDK integration with actual API endpoints—not simulation',
-      'Demo mode with transparent API call logging for hackathon judging',
-      'Gasless withdrawals via Radr Labs relayer infrastructure',
-    ],
-
-    keyInsight: 'Salary transparency is a feature for job seekers, not employers. PayShield gives DAOs the payroll privacy that traditional companies take for granted.',
-  },
-  {
-    id: 'mantlecred',
-    title: 'MantleCred',
-    tagline: 'Borrow against tokenized real estate',
-    description: 'DeFi lending platform on Mantle Network—tokenize property into RWA tokens and borrow mNGN stablecoin without selling your assets.',
-
-    color: '#1a1a1a',
-    accent: '#ef4444',
-    caseBg: '#fef2f2',
-
-    buildTime: '3 weeks',
-
-    heading: 'Unlock Liquidity From Real Estate Without Selling',
-    summary: 'MantleCred bridges traditional real estate with DeFi on Mantle Network. Property owners tokenize real estate into fungible RWA tokens, deposit as collateral, and borrow mNGN stablecoin (pegged to Nigerian Naira). Automated liquidation at 120% health factor maintains platform solvency.',
-    challenge: 'Real estate owners in emerging markets (specifically Nigeria) are asset-rich but cash-poor. Traditional banks require months for property loans. Selling means losing the asset. There\'s no way to access liquidity from property quickly.',
-    solution: 'Built a lending protocol where property becomes liquid collateral. Submit property for KYC verification, receive RWA tokens representing ownership, deposit tokens to borrow up to 66.67% LTV in mNGN. Oracle service updates prices every 60 minutes. Automated liquidation service monitors health factors.',
-
-    role: 'Lead Engineer',
-    techStack: ['Solidity', 'Foundry', 'Next.js', 'Express', 'SQLite', 'wagmi', 'Mantle'],
-    year: '2025',
-    category: 'DeFi / RWA',
-
-    githubUrl: 'https://github.com/hemjay07/MantleCred',
-
-    heroImage: '/images/projects/mantlecred/hero.png',
-    thumbnail: '/images/projects/mantlecred/thumb.png',
-    screenshots: [
-      '/images/projects/mantlecred/screen-1.png',
-      '/images/projects/mantlecred/screen-2.png',
-    ],
-
-    achievements: [
-      'Built for Mantle Global Hackathon 2025',
-      '69/71 features validated (97.2% completion)',
-      'Full smart contract suite deployed on Mantle Sepolia',
-    ],
-
-    features: [
-      {
-        title: 'Property Tokenization',
-        description: 'Submit property details (address, valuation, documents) for KYC verification. Approved properties mint fungible RWA tokens representing fractional ownership.',
-      },
-      {
-        title: 'Collateralized Lending',
-        description: 'Deposit RWA tokens, borrow up to 66.67% LTV in mNGN stablecoin. 10% annual interest rate, 12-month loan terms. Repay anytime to withdraw collateral.',
-      },
-      {
-        title: 'Automated Oracle',
-        description: 'Price oracle service updates property valuations every 60 minutes. Staleness protection prevents stale price exploitation.',
-      },
-      {
-        title: 'Liquidation Engine',
-        description: 'Automated service monitors health factors. Positions below 120% trigger liquidation. Maintains platform solvency without manual intervention.',
-      },
-    ],
-
-    technicalHighlights: [
-      'Four core contracts: LendingPool.sol, PriceOracle.sol, mNGN.sol (stablecoin), RWAToken.sol (property tokens)',
-      'Express backend with ethers.js for oracle updates and liquidation monitoring',
-      'RainbowKit integration with automatic Mantle network switching',
-      'Estimated mainnet deployment cost: ~0.05 MNT for entire contract suite',
-    ],
-
-    keyInsight: 'In emerging markets, property is the primary store of wealth. MantleCred turns illiquid real estate into DeFi-native collateral.',
   },
 ];
 
@@ -594,14 +938,25 @@ export const getProjectById = (id: string): Project | undefined => {
   return projects.find(p => p.id === id);
 };
 
+// Featured projects (shown in main 3D gallery)
+export const featuredProjects = projects.filter(p => !p.archived);
+
+// Featured projects for mobile (excludes desktopOnly projects)
+export const mobileFeaturedProjects = projects.filter(p => !p.archived && !p.desktopOnly);
+
+// Archived projects (shown in archive section)
+export const archivedProjects = projects.filter(p => p.archived);
+
 export const getNextProject = (currentId: string): Project => {
-  const currentIndex = projects.findIndex(p => p.id === currentId);
-  const nextIndex = (currentIndex + 1) % projects.length;
-  return projects[nextIndex];
+  const featured = featuredProjects;
+  const currentIndex = featured.findIndex(p => p.id === currentId);
+  const nextIndex = (currentIndex + 1) % featured.length;
+  return featured[nextIndex];
 };
 
 export const getPrevProject = (currentId: string): Project => {
-  const currentIndex = projects.findIndex(p => p.id === currentId);
-  const prevIndex = currentIndex === 0 ? projects.length - 1 : currentIndex - 1;
-  return projects[prevIndex];
+  const featured = featuredProjects;
+  const currentIndex = featured.findIndex(p => p.id === currentId);
+  const prevIndex = currentIndex === 0 ? featured.length - 1 : currentIndex - 1;
+  return featured[prevIndex];
 };

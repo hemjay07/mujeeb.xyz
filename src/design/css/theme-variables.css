@@ -1,0 +1,94 @@
+/**
+ * Theme CSS Variables
+ *
+ * Root variables for theme system
+ * Updated dynamically by ThemeProvider via DOM API
+ * All theme-aware classes use these variables
+ */
+
+:root {
+  /* ========================================
+     ACCENT COLORS (Project-specific)
+     ======================================== */
+
+  /** Primary accent color (main CTA, highlights, borders) */
+  --theme-accent-primary: #22d3ee;
+
+  /** Secondary accent color (hover states, secondary actions) */
+  --theme-accent-secondary: #06b6d4;
+
+  /** Glow color for accent glows (rgba variant) */
+  --theme-accent-glow: rgba(34, 211, 238, 0.5);
+
+  /* ========================================
+     SEMANTIC COLORS (Typically fixed)
+     ======================================== */
+
+  /** Success state color (green by default) */
+  --theme-success: #4ade80;
+
+  /** Warning state color (amber by default) */
+  --theme-warning: #fbbf24;
+
+  /** Error state color (red by default) */
+  --theme-error: #ef4444;
+
+  /* ========================================
+     BACKGROUNDS (Project-specific)
+     ======================================== */
+
+  /** Gallery card background (behind 3D card) */
+  --theme-bg-gallery: #1a1a1a;
+
+  /** Case study background variant */
+  --theme-bg-case: #0a0a0f;
+
+  /** Overlay color for semi-transparent overlays */
+  --theme-bg-overlay: rgba(10, 10, 15, 0.8);
+
+  /* ========================================
+     EFFECTS & STYLING
+     ======================================== */
+
+  /** Border style (solid, dashed, dotted) */
+  --theme-border-style: solid;
+
+  /** Border opacity (0-1) */
+  --theme-border-opacity: 1;
+
+  /** Glow intensity (0-1, used with alpha) */
+  --theme-glow-intensity: 0.5;
+
+  /** Shadow depth (none, shallow, medium, deep) */
+  --theme-shadow-depth: medium;
+
+  /** Transition speed for theme changes */
+  --theme-transition-speed: 300ms;
+}
+
+/**
+ * Enable smooth theme transitions
+ * Applied when changing themes to avoid abrupt color changes
+ */
+.theme-transitioning,
+.theme-transitioning * {
+  transition:
+    color var(--theme-transition-speed) ease-out,
+    background-color var(--theme-transition-speed) ease-out,
+    border-color var(--theme-transition-speed) ease-out,
+    box-shadow var(--theme-transition-speed) ease-out !important;
+}
+
+/**
+ * Reduced motion: Disable transitions for users with prefers-reduced-motion
+ */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --theme-transition-speed: 0ms;
+  }
+
+  .theme-transitioning,
+  .theme-transitioning * {
+    transition: none !important;
+  }
+}

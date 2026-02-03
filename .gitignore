@@ -39,3 +39,23 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# development notes (internal)
+/docs
+TRANSITION_FIX_PROGRESS.md
+*_PROGRESS.md
+*_DELIVERABLES.md
+*_SPEC.md
+*_SUMMARY.md
+*_COMPLETE.txt
+*_READY.txt
+*_INDEX.md
+*_MANIFEST.txt
+*_GUIDE.md
+*_REFERENCE.md
+*_ARCHITECTURE.md
+*_SNIPPETS.md
+FILES_CREATED.md
+OBSESSION_*.md
+THEMING_*.md
+src/design/*.md

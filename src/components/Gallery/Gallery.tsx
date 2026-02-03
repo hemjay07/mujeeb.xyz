@@ -2,7 +2,7 @@
 
 import { useRef, useState, useCallback, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import { featuredProjects } from '@/data/projects';
+import { featuredProjects, mobileFeaturedProjects } from '@/data/projects';
 import { useThreeGallery, GalleryControls } from '@/hooks/useThreeGallery';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import GalleryUI from './GalleryUI';
@@ -24,8 +24,9 @@ export default function Gallery() {
   const [config] = useState<AnimationConfig>(defaultConfig);
   const galleryControlsRef = useRef<GalleryControls | null>(null);
 
-  // Use featured projects for main gallery
-  const currentProject = featuredProjects[currentIndex];
+  // Use appropriate projects list based on device (mobile excludes desktopOnly projects)
+  const galleryProjects = isMobile ? mobileFeaturedProjects : featuredProjects;
+  const currentProject = galleryProjects[currentIndex];
 
   const handleIndexChange = useCallback((index: number) => {
     setCurrentIndex(index);
@@ -52,7 +53,7 @@ export default function Gallery() {
   }, [isTransitioning]);
 
   const galleryControls = useThreeGallery({
-    projects: featuredProjects,
+    projects: galleryProjects,
     containerRef: canvasContainerRef,
     onIndexChange: handleIndexChange,
     onCaseStudyOpen: handleCaseStudyOpen,
@@ -152,7 +153,7 @@ export default function Gallery() {
         <GalleryUI
           project={currentProject}
           currentIndex={currentIndex}
-          totalProjects={featuredProjects.length}
+          totalProjects={galleryProjects.length}
           isVisible={showGalleryUI && !isMobile}
           onOpenCaseStudy={handleOpenCaseStudy}
           onDotClick={handleDotClick}
@@ -162,7 +163,7 @@ export default function Gallery() {
       {/* Mobile: Carousel Gallery - only on home page */}
       {isHomePage && isHydrated && isMobile && !isCaseStudyOpen && (
         <GalleryCarousel
-          projects={featuredProjects}
+          projects={galleryProjects}
           currentIndex={currentIndex}
           onIndexChange={handleIndexChange}
           onOpenCaseStudy={handleCaseStudyOpen}

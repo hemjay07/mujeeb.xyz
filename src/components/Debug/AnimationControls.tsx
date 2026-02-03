@@ -28,7 +28,7 @@ export const defaultConfig: AnimationConfig = {
   stripScroll: 17,      // Cards start above viewport
   entryZ: -9,           // Start behind
   entryTilt: -0.8,      // Initial tilt during entry
-  entryDuration: 3.0,   // Entry animation duration
+  entryDuration: 3.8,   // Entry animation duration (slower)
   smoothness: 3.0,      // Easing smoothness
 
   // Gallery settled position (from original that worked)

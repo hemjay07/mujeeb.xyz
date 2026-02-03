@@ -336,36 +336,23 @@ export function useThreeGallery({
 
     cardsRef.current = cards;
 
-    // Check if user has already seen the entry animation this session
-    const hasSeenEntry = sessionStorage.getItem('gallery-entry-seen') === 'true';
+    // Set up entry animation starting state
+    stripGroup.position.y = cfg.stripScroll;
+    stripGroup.position.z = cfg.entryZ;
+    stripGroup.rotation.x = cfg.entryTilt;
+    entryCompleteRef.current = false;
+    currentBendRef.current = 0;
+    animStartTimeRef.current = null; // Not started yet
 
-    if (hasSeenEntry) {
-      // Skip entry animation - start in final state
-      animStartTimeRef.current = null;
-      entryCompleteRef.current = true;
-      currentBendRef.current = cfg.galleryBend;
-      stripGroup.position.set(0, 0, 0);
-      stripGroup.rotation.x = 0;
+    // Keep cards invisible until animation starts
+    cards.forEach(card => {
+      (card.material as THREE.MeshBasicMaterial).opacity = 0;
+    });
 
-      // Set all cards to final state
-      cards.forEach(card => {
-        (card.material as THREE.MeshBasicMaterial).opacity = 1;
-        const oldGeo = card.geometry;
-        card.geometry = createBentPlane(cfg.cardWidth, cfg.cardHeight, cfg.galleryBend);
-        oldGeo.dispose();
-      });
-    } else {
-      // First visit - play entry animation
+    // Delay before animation begins (400ms)
+    setTimeout(() => {
       animStartTimeRef.current = performance.now();
-      entryCompleteRef.current = false;
-      currentBendRef.current = 0;
-      stripGroup.position.y = cfg.stripScroll;
-      stripGroup.position.z = cfg.entryZ;
-      stripGroup.rotation.x = cfg.entryTilt;
-
-      // Mark as seen for this session
-      sessionStorage.setItem('gallery-entry-seen', 'true');
-    }
+    }, 400);
 
     // Event handlers
     const handleResize = () => {
@@ -484,7 +471,6 @@ export function useThreeGallery({
       animationId = requestAnimationFrame(animate);
 
       const cfg = configRef.current;
-      const entryElapsed = (performance.now() - (animStartTimeRef.current || 0)) / 1000;
       const stripGroup = stripGroupRef.current!;
 
       const GALLERY = {
@@ -495,9 +481,10 @@ export function useThreeGallery({
         bend: cfg.galleryBend,
       };
 
-      // Entry animation
-      if (!entryCompleteRef.current) {
-        const rawP = Math.min(1, entryElapsed / cfg.entryDuration);
+      // Entry animation - only run if animation has started (after delay)
+      if (!entryCompleteRef.current && animStartTimeRef.current !== null) {
+        const entryElapsedTime = (performance.now() - animStartTimeRef.current) / 1000;
+        const rawP = Math.min(1, entryElapsedTime / cfg.entryDuration);
         const p = smoothEase(rawP, cfg.smoothness);
 
         // Group moves down and forward

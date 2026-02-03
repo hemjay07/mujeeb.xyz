@@ -20,8 +20,8 @@ export default function GalleryUI({
   onOpenCaseStudy,
   onDotClick,
 }: GalleryUIProps) {
-  const projectNumber = String(currentIndex + 1).padStart(2, '0');
-  const totalNumber = String(totalProjects).padStart(2, '0');
+  const projectNumber = String((currentIndex ?? 0) + 1).padStart(2, '0');
+  const totalNumber = String(totalProjects || 7).padStart(2, '0');
 
   return (
     <>
