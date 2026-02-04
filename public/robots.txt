@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://mujeeb.xyz/sitemap.xml
+Sitemap: https://www.mujeeb.xyz/sitemap.xml
